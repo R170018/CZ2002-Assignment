@@ -68,4 +68,8 @@ public class Assessment{
 		return percentage;
 	}
 
+	public getMaxMark(){
+		return maxMark;
+	}
+
 }
