@@ -45,7 +45,7 @@ public class Assessment{
 			subAssessment[index] = new Assessment(name, percentage, maxMark);
 		}
 		else{
-			System.out.println("Index go beyond allowed number of sub-assessment.");
+			System.out.println("Index goes beyond allowed number of sub-assessment.");
 		}
 	}
 		
@@ -64,7 +64,7 @@ public class Assessment{
 		return subAssessment;
 	}
 
-	public string getName(){
+	public String getName(){
 		return name;
 	}
 
@@ -74,6 +74,10 @@ public class Assessment{
 
 	public int getMaxMark(){
 		return maxMark;
+	}
+
+	public int getNumOfSubAssessment(){
+		return numOfSubAssessment;
 	}
 
 }
