@@ -1,27 +1,35 @@
 package SCRAME;
 
-public class AssessmentGrade {
+public class AssessmentMark {
     private Assessment assessment;
 	private float mark;
-	private AssessmentGrade[] subAssessmentGrade = new AssessmentGrade[4] ;
+	private AssessmentMark[] subAssessmentMark = new AssessmentMark[4] ;
 
     //constructor 
     public AssessmentGrade(Assessment assessment, float mark){
         this.assessment=assessment;
+        // assessment with sub assessment will have a mark of -1;
         this.mark=mark;
-        // for assessment with sub assessment will have a mark of -1;
+        
 
     }
 
-
+    // setMark for assessment with subassessment
     public float calculateMark(){
         for (int i=0; i<assessment.getNumOfSubAssessment(); i++){
-            if (subAssessmentGrade[i].getMark()==-1){
-                subAssessmentGrade[i].calculateMark();
-            }
-            mark += (subAssessmentGrade[i].getMark() / subAssessmentGrade[i].getMaxMark()*100) * subAssessmentGrade[i].getPercentage();
+            mark += subAssessmentGrade[i].getMark() * subAssessmentGrade[i].getPercentage();
         } 
     } 
+
+    //set one of its subAssessmentGrade
+    public void setSubAssessmentMark(int index, Assessment assessment, int mark){
+        if(index < assessment.getNumOfSubAssessment()){
+            subAssessmentMark[index] = new AssessmentMark(assessment, mark);
+		}
+		else{
+			System.out.println("Index goes beyond allowed number of sub-assessment.");
+		}       
+    }
 
     //reference assessment's information
     public String getName(){
@@ -37,6 +45,9 @@ public class AssessmentGrade {
     }
     // its own info
     public float getMark(){
+        if (Mark==-1){
+            calculateMark();
+        }
         return Mark;
     }
 
@@ -48,15 +59,7 @@ public class AssessmentGrade {
     
     
 
-    //set one of its subAssessmentGrade
-    public void setSubAssessmentGrade(int index, Assessment assessment, int mark){
-        if(index < assessment.getNumOfSubAssessment()){
-            subAssessment[index] = new AssessmentGrade(assessment, mark);
-		}
-		else{
-			System.out.println("Index goes beyond allowed number of sub-assessment.");
-		}       
-    }
+
 
 
 

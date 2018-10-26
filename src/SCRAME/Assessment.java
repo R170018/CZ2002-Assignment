@@ -6,12 +6,10 @@ public class Assessment{
 	private float percentage;
 	private Assessment[MAX_SUBASSESSMENT] subAssessment;
 	private int numOfSubAssessment = 0;
-	private int maxMark;
 
-	public Assessment(string name, float percentage, int maxMark){
+	public Assessment(string name, float percentage){
 		this.name = name;
 		this.percentage = percentage;
-		this.maxMark = maxMark;
 	}
 
 	public setName(string name){
@@ -40,9 +38,9 @@ public class Assessment{
 		}
 	}
 
-	public setSubAssessments(int index, string name, float percentage, int maxMark){
+	public setSubAssessments(int index, string name, float percentage){
 		if(index < numOfSubAssessment){
-			subAssessment[index] = new Assessment(name, percentage, maxMark);
+			subAssessment[index] = new Assessment(name, percentage);
 		}
 		else{
 			System.out.println("Index goes beyond allowed number of sub-assessment.");
@@ -70,10 +68,6 @@ public class Assessment{
 
 	public float getPercentage(){
 		return percentage;
-	}
-
-	public int getMaxMark(){
-		return maxMark;
 	}
 
 	public int getNumOfSubAssessment(){
