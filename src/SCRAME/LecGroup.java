@@ -1,4 +1,5 @@
 package SCRAME;
 
-public class LecGroup {
+public class LecGroup extends GroupSuperClass{
+	
 }

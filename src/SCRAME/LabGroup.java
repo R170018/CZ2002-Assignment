@@ -1,4 +1,8 @@
 package SCRAME;
 
-public class LabGroup {
+public class LabGroup extends GroupSuperClass{
+	
+	
 }
+
+

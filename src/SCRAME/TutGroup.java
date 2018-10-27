@@ -1,4 +1,6 @@
 package SCRAME;
 
-public class TutGroup {
+public class TutGroup extends GroupSuperClass{
+	
+
 }
