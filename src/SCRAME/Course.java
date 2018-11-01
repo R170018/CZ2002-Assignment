@@ -3,6 +3,8 @@ import java.util.Arrays;
 public class Course {
 	private String courseName;
 	private String lecGroup;
+	private String courseID;
+	private Int noOfTutGrp, noOfLabGrp;
 	private TutGroup[] tutGroup=new TutGroup[2];
 	private LabGroup[] labGroup=new LabGroup[2];  
 	private CourseCoordinator professor = new CourseCoordinator();
@@ -19,6 +21,7 @@ public class Course {
         this.lecGroup=lecGroup;
         tutGroup[0]=new TutGroup(tut1);
         tutGroup[1]=new TutGroup(tut2);
+        noOfTutGrp=2;
         
     }  
 	
@@ -29,9 +32,11 @@ public class Course {
         tutGroup[1]=new TutGroup(tut2);
         labGroup[0]=new LabGroup(lab1);
         labGroup[1]=new LabGroup(lab2);
+        noOfTutGrp=2;
+        noOfLabGrp=2;
         
     }  
-	
+
 	public void register(Student student,String tutGroup, String labGroup) {
 		// implement exception handling
 		for (int i=0;i<=studentIndex;i++) {
@@ -54,5 +59,20 @@ public class Course {
 		
 	}
 	
+	public void addAssessment(String name, float percentage, int numOfSubAssessment) {
+		
+	}
 
+	public Assessment[] getAssessment(void) {
+		return Assessment[];
+	}
+	
+	public Group[] getGroup(int byGrpType) {
+		return Group[];
+	}
+	
+	public int assignStudent(Student student) {
+
+	}
+	
 }
