@@ -1,78 +1,60 @@
-package SCRAME;
-import java.util.Arrays; 
-public class Course {
-	private String courseName;
-	private String lecGroup;
+import java.util.*;
+public class Course{
+	public static final int MAX_ASSESSMENT = 4;
+	private String name;
+	private int numOfAssessments = 0;
 	private String courseID;
-	private Int noOfTutGrp, noOfLabGrp;
-	private TutGroup[] tutGroup=new TutGroup[2];
-	private LabGroup[] labGroup=new LabGroup[2];  
-	private CourseCoordinator professor = new CourseCoordinator();
-	//private Student[] student=new Student[15];
-	private Student[] student=new Student[15];
-	int studentIndex=0;
-	
-	public Course(String courseName, String lecGroup){
-	         this.courseName =  courseName;
-	         this.lecGroup=lecGroup;
-	}  
-	public Course(String courseName, String lecGroup, String tut1,String tut2){
-        this.courseName =  courseName;
-        this.lecGroup=lecGroup;
-        tutGroup[0]=new TutGroup(tut1);
-        tutGroup[1]=new TutGroup(tut2);
-        noOfTutGrp=2;
-        
-    }  
-	
-	public Course(String courseName, String lecGroup, String tut1,String tut2, String lab1, String lab2){
-        this.courseName =  courseName;
-        this.lecGroup=lecGroup;
-        tutGroup[0]=new TutGroup(tut1);
-        tutGroup[1]=new TutGroup(tut2);
-        labGroup[0]=new LabGroup(lab1);
-        labGroup[1]=new LabGroup(lab2);
-        noOfTutGrp=2;
-        noOfLabGrp=2;
-        
-    }  
+	private Assessment[] assessment = new Assessment[MAX_ASSESSMENT];
 
-	public void register(Student student,String tutGroup, String labGroup) {
-		// implement exception handling
-		for (int i=0;i<=studentIndex;i++) {
-			if (this.student[i]==student) {
-				System.out.println("The student has already been added!");
-			}
+	public Course(String courseID){
+		this.courseID = courseID;
+	}
+
+	public void setAssessmentNum(int num){
+		this.numOfAssessments = num;
+	}
+
+	public void setAssessments(){
+		int numOfSubAssessments;
+		String assessmentName;
+		Scanner scan = new Scanner(System.in);
+		for(int i=0; i<numOfAssessments; i++){
+			System.out.println("Name of assessment " + (i+1) +":");
+			assessmentName = scan.nextLine();
+			System.out.println("Number of sub-assessments '" + assessmentName + "' has:");
+			numOfSubAssessments = scan.nextInt();
+			scan.nextLine();
+			assessment[i] = new Assessment(assessmentName, numOfSubAssessments);
+		}	
+	}
+
+	public void setSubAssessments(){
+		for(int i=0; i<numOfAssessments; i++){
+			assessment[i].setSubAssessments();
 		}
+	}
 
-		this.student[studentIndex]=student;
-		for (int i=0;i<2;i++) {
-			if (this.tutGroup[i].getTutGroupName()==tutGroup) {
-				this.tutGroup[i].registerForTutGroup(student);
-			}
+	public String getCourseId(){
+		return courseID;
+	}
+
+	public void printAssessment(){
+		System.out.println("//Course structure-----------------------");
+		for(int i=0; i<numOfAssessments; i++){
+			assessment[i].printAssessment(0);
 		}
-		for (int i=0;i<2;i++) {
-			if (this.labGroup[i].getLabGroupName()==labGroup) {
-				this.tutGroup[i].registerForTutGroup(student);
-			}
+	}
+
+	public int getNumOfAssessments(){
+		return numOfAssessments;
+	}
+
+	public Assessment getAssessment(int index){
+		if(index < numOfAssessments){
+			return assessment[index];
 		}
-		
+		else{
+			return null;
+		}
 	}
-	
-	public void addAssessment(String name, float percentage, int numOfSubAssessment) {
-		
-	}
-
-	public Assessment[] getAssessment(void) {
-		return Assessment[];
-	}
-	
-	public Group[] getGroup(int byGrpType) {
-		return Group[];
-	}
-	
-	public int assignStudent(Student student) {
-
-	}
-	
 }
