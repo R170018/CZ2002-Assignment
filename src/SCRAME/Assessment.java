@@ -1,77 +1,72 @@
-package SCRAME;
-
+import java.util.*;
 public class Assessment{
 	public static final int MAX_SUBASSESSMENT = 4;
-	private string name;
-	private float percentage;
-	private Assessment[MAX_SUBASSESSMENT] subAssessment;
-	private int numOfSubAssessment = 0;
+	private Assessment[] subAssessment = new Assessment[MAX_SUBASSESSMENT];
+	private String name;
+	private int numOfSubAssessments = 0;
 
-	public Assessment(string name, float percentage){
+	public Assessment(String name, int numOfSubAssessments){
 		this.name = name;
-		this.percentage = percentage;
+		this.numOfSubAssessments = numOfSubAssessments;
 	}
 
-	public setName(string name){
-		this.name = name;
-	}
-
-	public int setPercentage(float percentage){
-		if(percentage > 0 && percentage <=1){
-			this.percentage = percentage;
-			return 1;
-		}
-		else{
-			System.out.println("Percentage needs to be a number between 0 and 1");
-			return -1;
-		}
-	}
-
-	public int setNumOfSubAssessment(int number){
-		if(number <= MAX_SUBASSESSMENT){
-			numOfSubAssessment = number;
-			return 1;
-		}
-		else{
-			System.out.println("Number of sub-assessment cannot exceed " + MAX_SUBASSESSMENT);
-			return -1;
+	public void setSubAssessments(){
+		String subAssessmentName;
+		int numOfSubOfSub;
+		Scanner scan = new Scanner(System.in);
+		//terminate condition
+		if(numOfSubAssessments > 0){
+			//loop to create sub-assessments for current assessment
+			for(int i=0; i<numOfSubAssessments; i++){
+				System.out.println("Sub-assessments of '" + this.name + "'-----------------------");
+				System.out.println("Name of sub-assessment " + (i+1) + ":");
+				subAssessmentName = scan.nextLine();
+				System.out.println("Number of sub-assessments '" + subAssessmentName + "' has:");
+				numOfSubOfSub = scan.nextInt();
+				scan.nextLine();
+				subAssessment[i] = new Assessment(subAssessmentName, numOfSubOfSub);
+			}
+			//recursive calls
+			for(int i=0; i<numOfSubAssessments; i++){
+				subAssessment[i].setSubAssessments();
+			}
 		}
 	}
 
-	public setSubAssessments(int index, string name, float percentage){
-		if(index < numOfSubAssessment){
-			subAssessment[index] = new Assessment(name, percentage);
+	public void printAssessment(int level){
+		for(int i=0; i<level; i++){
+			System.out.printf("  ");
 		}
-		else{
-			System.out.println("Index goes beyond allowed number of sub-assessment.");
+		System.out.println(this.name);
+		//terminate condition
+		if(numOfSubAssessments > 0){
+			for(int i=0; i<level; i++){
+				System.out.printf("  ");
+			}
+			System.out.println("{");
+			//loop to print sub-assessments of current assessment
+			for(int i=0; i<numOfSubAssessments; i++){
+				subAssessment[i].printAssessment(level+1);
+			}
+			for(int i=0; i<level; i++){
+				System.out.printf("  ");
+			}
+			System.out.println("}");
 		}
-	}
-		
-	public int checkPercentage(){
-		int percentageSum = 0;
-		for(int i=0; i<numOfSubAssessment; i++){
-			percentage += subAssessment[i].percentage;
-		}
-		if(percentage == 1){
-			return 1;
-		}
-		return -1;
-	}
-
-	public Assessment[] getSubAssessment(){
-		return subAssessment;
 	}
 
 	public String getName(){
-		return name;
+		return this.name;
 	}
 
-	public float getPercentage(){
-		return percentage;
+	public Assessment getSubAssessment(int index){
+		if(index < numOfSubAssessments){
+			return subAssessment[index];
+		}
+		return null;
 	}
 
-	public int getNumOfSubAssessment(){
-		return numOfSubAssessment;
+	public int getNumOfSubAssessments(){
+		return numOfSubAssessments;
 	}
-
 }
