@@ -1,3 +1,5 @@
+package SCRAME;
+
 import java.util.*;
 
 public class SchoolApp{

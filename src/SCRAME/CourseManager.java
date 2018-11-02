@@ -1,3 +1,5 @@
+package SCRAME;
+
 import java.util.*;
 public class CourseManager{
 	private ArrayList<Course> courses = new ArrayList<Course>();

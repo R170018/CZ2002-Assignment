@@ -1,3 +1,5 @@
+package SCRAME;
+
 import java.util.*;
 public class Course{
 	public static final int MAX_ASSESSMENT = 4;

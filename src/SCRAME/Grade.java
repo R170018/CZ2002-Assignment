@@ -1,3 +1,5 @@
+package SCRAME;
+
 public class Grade{
 	private Course course;
 	private int overallMark = -1;
