@@ -1,4 +1,4 @@
-package SCRAME;
+//package SCRAME;
 
 import java.util.*;
 public class Assessment{
@@ -7,26 +7,27 @@ public class Assessment{
 	private String name;
 	private int numOfSubAssessments = 0;
 
-	public Assessment(String name, int numOfSubAssessments){
+	public Assessment(String name){
 		this.name = name;
-		this.numOfSubAssessments = numOfSubAssessments;
 	}
 
 	public void setSubAssessments(){
 		String subAssessmentName;
-		int numOfSubOfSub;
 		Scanner scan = new Scanner(System.in);
+		int tempNumOfSubAssessments;
+		do{
+			System.out.println("Number of sub components '" + this.name + "' has:(<" + MAX_SUBASSESSMENT + ")");
+			tempNumOfSubAssessments = scan.nextInt();
+			scan.nextLine();
+		}while(!setNumOfSubAssessments(tempNumOfSubAssessments));
 		//terminate condition
 		if(numOfSubAssessments > 0){
 			//loop to create sub-assessments for current assessment
 			for(int i=0; i<numOfSubAssessments; i++){
-				System.out.println("Sub-assessments of '" + this.name + "'-----------------------");
-				System.out.println("Name of sub-assessment " + (i+1) + ":");
+				System.out.println("Sub components of '" + this.name + "'-----------------------");
+				System.out.println("Name of sub component " + (i+1) + ":");
 				subAssessmentName = scan.nextLine();
-				System.out.println("Number of sub-assessments '" + subAssessmentName + "' has:");
-				numOfSubOfSub = scan.nextInt();
-				scan.nextLine();
-				subAssessment[i] = new Assessment(subAssessmentName, numOfSubOfSub);
+				subAssessment[i] = new Assessment(subAssessmentName);
 			}
 			//recursive calls
 			for(int i=0; i<numOfSubAssessments; i++){
@@ -70,5 +71,17 @@ public class Assessment{
 
 	public int getNumOfSubAssessments(){
 		return numOfSubAssessments;
+	}
+
+	public Boolean setNumOfSubAssessments(int numOfSubAssessments){
+		if(numOfSubAssessments >= 0 && numOfSubAssessments <= MAX_SUBASSESSMENT){
+			this.numOfSubAssessments = numOfSubAssessments;
+			return true;
+		}
+		else{
+			System.out.println("Expecting a non-negative integer.");
+			return false;
+		}
+
 	}
 }

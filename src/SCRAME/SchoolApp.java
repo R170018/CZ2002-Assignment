@@ -1,4 +1,4 @@
-package SCRAME;
+// package SCRAME;
 
 import java.util.*;
 
@@ -6,7 +6,8 @@ public class SchoolApp{
 	public static void main(String args[]){
 		int choice;
 		String tempStudentID;
-		Course tempCourse;
+		String tempCourseID;
+		Boolean tempBoolean;
 		Scanner scan = new Scanner(System.in);
 		CourseManager courseManager = new CourseManager();
 		StudentManager studentManager = new StudentManager();
@@ -57,8 +58,9 @@ public class SchoolApp{
 					tempStudentID = scan.nextLine();
 					do{
 						System.out.println("Enter course ID:");
-						tempCourse = courseManager.getCourse(scan.nextLine());
-						if(tempCourse == null){
+						tempCourseID = scan.nextLine();
+						tempBoolean = courseManager.haveCourse(tempCourseID);
+						if(!tempBoolean){
 							System.out.println("Course doesn't exist!");
 							System.out.println("Do you want to print courses? 0/1");
 							if(scan.nextInt() == 1){
@@ -66,12 +68,13 @@ public class SchoolApp{
 							}
 							scan.nextLine();
 						}
-					}while(tempCourse == null);
-					studentManager.setMark(tempStudentID, tempCourse);
+					}while(!tempBoolean);
+					studentManager.setMark(tempStudentID, tempCourseID);
 					break;
 				case 8:
 					System.out.println("Enter student ID:");
 					studentManager.printGrade(scan.nextLine());
+					break;
 			}
 
 		}while(choice != 9);

@@ -1,4 +1,4 @@
-package SCRAME;
+// package SCRAME;
 
 public class Group{
 	private int vacancy;

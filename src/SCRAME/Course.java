@@ -1,39 +1,17 @@
-package SCRAME;
+// package SCRAME;
 
-import java.util.*;
 public class Course{
-	public static final int MAX_ASSESSMENT = 4;
 	private String name;
-	private int numOfAssessments = 0;
 	private String courseID;
-	private Assessment[] assessment = new Assessment[MAX_ASSESSMENT];
+	private Assessment assessment;
 
 	public Course(String courseID){
 		this.courseID = courseID;
+		this.assessment = new Assessment("Overall assessment");
 	}
 
-	public void setAssessmentNum(int num){
-		this.numOfAssessments = num;
-	}
-
-	public void setAssessments(){
-		int numOfSubAssessments;
-		String assessmentName;
-		Scanner scan = new Scanner(System.in);
-		for(int i=0; i<numOfAssessments; i++){
-			System.out.println("Name of assessment " + (i+1) +":");
-			assessmentName = scan.nextLine();
-			System.out.println("Number of sub-assessments '" + assessmentName + "' has:");
-			numOfSubAssessments = scan.nextInt();
-			scan.nextLine();
-			assessment[i] = new Assessment(assessmentName, numOfSubAssessments);
-		}	
-	}
-
-	public void setSubAssessments(){
-		for(int i=0; i<numOfAssessments; i++){
-			assessment[i].setSubAssessments();
-		}
+	public void setAssessment(){
+		assessment.setSubAssessments();	
 	}
 
 	public String getCourseId(){
@@ -41,22 +19,12 @@ public class Course{
 	}
 
 	public void printAssessment(){
-		System.out.println("//Course structure-----------------------");
-		for(int i=0; i<numOfAssessments; i++){
-			assessment[i].printAssessment(0);
-		}
+		System.out.println("//Course structure-------------------------");
+		assessment.printAssessment(0);
 	}
 
-	public int getNumOfAssessments(){
-		return numOfAssessments;
-	}
 
-	public Assessment getAssessment(int index){
-		if(index < numOfAssessments){
-			return assessment[index];
-		}
-		else{
-			return null;
-		}
+	public Assessment getAssessment(){
+		return assessment;
 	}
 }

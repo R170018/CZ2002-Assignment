@@ -1,4 +1,4 @@
-package SCRAME;
+//package SCRAME;
 
 import java.util.*;
 public class CourseManager{
@@ -21,19 +21,7 @@ public class CourseManager{
 			}
 		}
 		if(courseToSet != null){
-			//get input
-			do{
-				System.out.println("Enter the number of assessments to add:(<=" + Course.MAX_ASSESSMENT + ")");
-				//TODO What if user enter a string instead of int
-				numOfAssessments = scan.nextInt();
-				scan.nextLine();
-			}while(numOfAssessments > Course.MAX_ASSESSMENT);
-
-			courseToSet.setAssessmentNum(numOfAssessments);
-			//create assessments of the course
-			courseToSet.setAssessments();
-			//create sub-assessments of the course
-			courseToSet.setSubAssessments();
+			courseToSet.setAssessment();
 			return true;
 		}
 		else{
@@ -57,6 +45,15 @@ public class CourseManager{
 			}
 		}
 		return null;
+	}
+
+	public Boolean haveCourse(String courseID){
+		for(int i=0; i<courses.size(); i++){
+			if(courses.get(i).getCourseId().equals(courseID)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public Boolean printAssessment(String courseID){

@@ -1,9 +1,9 @@
-package SCRAME;
+// package SCRAME;
 
 import java.util.*;
 public class Student extends PersonSuperClass {
     private String studentID;
-    private Grade grade;
+    private ArrayList<Grade> grade;
     private Boolean fullTime; // Full time/ Part-time
     private int studentType; // Exchange/ Graduate / Undergraduate
     private int studyYear;
@@ -45,16 +45,34 @@ public class Student extends PersonSuperClass {
         return studentID;
     }
 
-    public void createGrade(Course course) {
-        this.grade = new Grade(course);
+    public void createMarks(String courseID) {
+        Grade tempGrade;
+        tempGrade = getGrade(courseID);
+        if(tempGrade != null){
+            tempGrade.createAssessmentMarks();
+        }
     }
 
-    public void calGrade() {
-        grade.calGrade();
+    public Grade getGrade(String courseID){
+        Course tempCourse;
+        for(int i=0; i<grade.size(); i++){
+            tempCourse = grade.get(i).getCourse();
+            if(tempCourse.getCourseId().equals(courseID)){
+                return grade.get(i);
+            }
+        }
+        System.out.println("Course is not taken by student " + this.studentID + ".");
+        return null;
     }
+
+    // public void calGrade() {
+    //     grade.calGrade();
+    // }
 
     public void printGrade() {
-        grade.printGrade();
+        for(int i=0; i<grade.size(); i++){
+            grade.get(i).printGrade();
+        }
     }
 
     public void printStudent() {

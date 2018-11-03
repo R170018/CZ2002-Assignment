@@ -1,4 +1,4 @@
-package SCRAME;
+// package SCRAME;
 
 import java.util.*;
 
@@ -59,10 +59,12 @@ public class StudentManager {
         }
     }
 
-    public void setMark(String studentID, Course course) {
+    public void setMark(String studentID, String courseID) {
         Student student = getStudent(studentID);
-        student.createGrade(course);
-        student.calGrade();
+        //TODO: if student doesn't exist
+        if(student != null){
+            student.createMarks(courseID);
+        }
     }
 
     public Student getStudent(String studentID) {
