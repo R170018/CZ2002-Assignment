@@ -10,6 +10,7 @@ public class Grade{
 
 	public void createAssessmentMarks(){
 		assessmentMark = new AssessmentMark(course.getAssessment());
+		AssessmentMarkManager.createSubAssessmentMarks(assessmentMark);
 		calGrade();
 	}
 
@@ -21,10 +22,8 @@ public class Grade{
 		return course;
 	}
 
-	public void printGrade(){
-		System.out.println("Grade-------------------------------");
-		System.out.println(course.getCourseId() + ": ");
-		assessmentMark.printMark(0);
+	public AssessmentMark getAssessmentMark(){
+		return assessmentMark;
 	}
 	
 }

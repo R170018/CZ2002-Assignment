@@ -8,25 +8,18 @@ public class AssessmentMark{
 
 	public AssessmentMark(Assessment assessment){
 		this.assessment = assessment;
-		createSubAssessmentMarks();
 	}
 
-	public void createSubAssessmentMarks(){
-		Scanner scan = new Scanner(System.in);
-		if(assessment.getNumOfSubAssessments() > 0){
-			for(int i=0; i<assessment.getNumOfSubAssessments(); i++){
-				subAssessmentMark[i] = new AssessmentMark(assessment.getSubAssessment(i));
-			}
-		}
-		else{
-			System.out.println("Enter mark for '" + assessment.getName() + "':");
-			setMark(scan.nextInt());
-			scan.nextLine();
-		}
+	public void setSubAssessmentMark(int index, Assessment assessment){
+		subAssessmentMark[index] = new AssessmentMark(assessment);
 	}
 
 	public void setMark(int mark){
 		this.mark = mark;
+	}
+
+	public int getMark(){
+		return mark;
 	}
 
 	public int calGrade(){
@@ -48,24 +41,54 @@ public class AssessmentMark{
 		}
 	}
 
-	public void printMark(int level){
-		for(int i=0; i<level; i++){
-			System.out.printf("  ");
-		}
-		System.out.println(assessment.getName() + ": " + mark);
-		if(assessment.getNumOfSubAssessments() > 0){
-			for(int i=0; i<level; i++){
-				System.out.printf("  ");
-			}
-			System.out.println("{");
-			for(int i=0; i<assessment.getNumOfSubAssessments(); i++){
-				subAssessmentMark[i].printMark(level+1);
-			}
-			for(int i=0; i<level; i++){
-				System.out.printf("  ");
-			}
-			System.out.println("}");
-		}
+	public int getNumOfSubAssessmentMarks(){
+		return assessment.getNumOfSubAssessments();
 	}
+
+	public AssessmentMark getSubAssessmentMark(int index){
+		if(index < assessment.getNumOfSubAssessments()){
+			return subAssessmentMark[index];
+		}
+		return null;
+	}
+
+	public Assessment getAssessment(){
+		return assessment;
+	}
+
+	// public void printMark(int level){
+	// 	for(int i=0; i<level; i++){
+	// 		System.out.printf("  ");
+	// 	}
+	// 	System.out.println(assessment.getName() + ": " + mark);
+	// 	if(assessment.getNumOfSubAssessments() > 0){
+	// 		for(int i=0; i<level; i++){
+	// 			System.out.printf("  ");
+	// 		}
+	// 		System.out.println("{");
+	// 		for(int i=0; i<assessment.getNumOfSubAssessments(); i++){
+	// 			subAssessmentMark[i].printMark(level+1);
+	// 		}
+	// 		for(int i=0; i<level; i++){
+	// 			System.out.printf("  ");
+	// 		}
+	// 		System.out.println("}");
+	// 	}
+	// }
+
+
+	// public void createSubAssessmentMarks(){
+	// 	Scanner scan = new Scanner(System.in);
+	// 	if(assessment.getNumOfSubAssessments() > 0){
+	// 		for(int i=0; i<assessment.getNumOfSubAssessments(); i++){
+	// 			subAssessmentMark[i] = new AssessmentMark(assessment.getSubAssessment(i));
+	// 		}
+	// 	}
+	// 	else{
+	// 		System.out.println("Enter mark for '" + assessment.getName() + "':");
+	// 		setMark(scan.nextInt());
+	// 		scan.nextLine();
+	// 	}
+	// }
 
 }

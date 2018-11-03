@@ -7,11 +7,11 @@ public class Course{
 
 	public Course(String courseID){
 		this.courseID = courseID;
-		this.assessment = new Assessment("Overall assessment");
+		this.assessment = new Assessment(courseID);
 	}
 
 	public void setAssessment(){
-		assessment.setSubAssessments();	
+		AssessmentManager.setSubAssessments(assessment);	
 	}
 
 	public String getCourseId(){
@@ -19,8 +19,7 @@ public class Course{
 	}
 
 	public void printAssessment(){
-		System.out.println("//Course structure-------------------------");
-		assessment.printAssessment(0);
+		AssessmentManager.printAssessment(assessment, 0);
 	}
 
 

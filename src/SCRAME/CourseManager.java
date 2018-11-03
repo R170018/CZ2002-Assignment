@@ -63,6 +63,7 @@ public class CourseManager{
 			return false;
 		}
 		else{
+			System.out.println("//Course structure-------------------------");
 			courseToPrint.printAssessment();
 			return true;
 		}

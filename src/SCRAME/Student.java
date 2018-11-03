@@ -3,7 +3,7 @@
 import java.util.*;
 public class Student extends PersonSuperClass {
     private String studentID;
-    private ArrayList<Grade> grade;
+    private ArrayList<Grade> grade = new ArrayList<Grade>();
     private Boolean fullTime; // Full time/ Part-time
     private int studentType; // Exchange/ Graduate / Undergraduate
     private int studyYear;
@@ -65,13 +65,14 @@ public class Student extends PersonSuperClass {
         return null;
     }
 
-    // public void calGrade() {
-    //     grade.calGrade();
-    // }
-
     public void printGrade() {
-        for(int i=0; i<grade.size(); i++){
-            grade.get(i).printGrade();
+        if(grade.size() == 0){
+            System.out.println("Student has not taken any courses.")
+        }
+        else{
+            for(int i=0; i<grade.size(); i++){
+                GradeManager.printGrade(grade.get(i));
+            }
         }
     }
 
