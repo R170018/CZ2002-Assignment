@@ -1,16 +1,21 @@
 package SCRAME;
 
-public class Student extends PersonSuperClass{
+import java.util.*;
+public class Student extends PersonSuperClass {
+    private String studentID;
+    private Grade grade;
     private Boolean fullTime; // Full time/ Part-time
-    private String studentType; // Exchange/ Graduate / Undergraduate
+    private int studentType; // Exchange/ Graduate / Undergraduate
     private int studyYear;
 
-    public Student(String numberID, String name, char gender, String nationality, String address, int contactNo, String email, Boolean fullTime, String studentType, int studyYear) {
+    public Student(String numberID, String name, char gender, String nationality, String address, int contactNo, String email, Boolean fullTime, int studentType, int studyYear) {
         super(numberID, name, gender, nationality, address, contactNo, email);
+        this.studentID = numberID;
         this.fullTime = fullTime;
         this.studentType = studentType;
         this.studyYear = studyYear;
     }
+
 
     public Boolean getFullTime() {
         return fullTime;
@@ -20,11 +25,11 @@ public class Student extends PersonSuperClass{
         this.fullTime = fullTime;
     }
 
-    public String getStudentType() {
+    public int getStudentType() {
         return studentType;
     }
 
-    public void setStudentType(String studentType) {
+    public void setStudentType(int studentType) {
         this.studentType = studentType;
     }
 
@@ -34,5 +39,26 @@ public class Student extends PersonSuperClass{
 
     public void setStudyYear(int studyYear) {
         this.studyYear = studyYear;
+    }
+
+    public String getStudentID() {
+        return studentID;
+    }
+
+    public void createGrade(Course course) {
+        this.grade = new Grade(course);
+    }
+
+    public void calGrade() {
+        grade.calGrade();
+    }
+
+    public void printGrade() {
+        grade.printGrade();
+    }
+
+    public void printStudent() {
+        System.out.println("StudentID : " +  this.studentID);
+        System.out.println("Name : " +  this.getName());
     }
 }
