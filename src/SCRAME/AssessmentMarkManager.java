@@ -1,4 +1,3 @@
-import java.util.*;
 
 public class AssessmentMarkManager{
 	
@@ -29,7 +28,6 @@ public class AssessmentMarkManager{
 	}
 
 	public static void createSubAssessmentMarks(AssessmentMark assessmentMark){
-		Scanner scan = new Scanner(System.in);
 		int tempNumOfSubAssessmentMarks = assessmentMark.getNumOfSubAssessmentMarks();
 		if(tempNumOfSubAssessmentMarks > 0){
 			for(int i=0; i<tempNumOfSubAssessmentMarks; i++){
@@ -38,8 +36,7 @@ public class AssessmentMarkManager{
 		}
 		else{
 			System.out.println("Enter mark for '" + assessmentMark.getAssessment().getName() + "':");
-			assessmentMark.setMark(scan.nextInt());
-			scan.nextLine();
+			assessmentMark.setMark(InputHandler.getInt());
 		}
 	}
 

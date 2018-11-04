@@ -1,14 +1,11 @@
 // package SCRAME;
 
-import java.util.*;
-
 public class SchoolApp{
 	public static void main(String args[]){
 		int choice;
 		String tempStudentID;
 		String tempCourseID;
 		Boolean tempBoolean;
-		Scanner scan = new Scanner(System.in);
 		CourseManager courseManager = new CourseManager();
 		StudentManager studentManager = new StudentManager();
 		do{
@@ -22,19 +19,16 @@ public class SchoolApp{
 			System.out.println("(8)Print grade of a student;");
 			System.out.println("(9)Exit;");
 			System.out.println("Please enter your choice:");
-			choice = scan.nextInt();
-			scan.nextLine();
+			choice = InputHandler.getInt();
 
 			switch(choice){
 				case 1:
 					System.out.println("Enter course ID:");
-					courseManager.addCourse(scan.nextLine());
+					courseManager.addCourse(InputHandler.getLine());
 					break;
 				case 2:
-					do{
-						System.out.println("Enter the target course ID:");
-
-					}while(!courseManager.setAssessment(scan.nextLine()));
+					System.out.println("Enter the target course ID:");
+					courseManager.setAssessment(InputHandler.getLine());
 					break;
 				case 3:
 					courseManager.printCourses();
@@ -43,11 +37,11 @@ public class SchoolApp{
 					do{
 						System.out.println("Enter course ID:");
 
-					}while(!courseManager.printAssessment(scan.nextLine()));
+					}while(!courseManager.printAssessment(InputHandler.getLine()));
 					break;
 				case 5:
 					System.out.println("Enter student ID:");
-					studentManager.addStudent(scan.nextLine());
+					studentManager.addStudent(InputHandler.getLine());
 					break;
 				case 6:
 					System.out.println("Student---------------------");
@@ -55,25 +49,24 @@ public class SchoolApp{
 					break;
 				case 7:
 					System.out.println("Enter student ID:");
-					tempStudentID = scan.nextLine();
+					tempStudentID = InputHandler.getLine();
 					do{
 						System.out.println("Enter course ID:");
-						tempCourseID = scan.nextLine();
+						tempCourseID = InputHandler.getLine();
 						tempBoolean = courseManager.haveCourse(tempCourseID);
 						if(!tempBoolean){
 							System.out.println("Course doesn't exist!");
 							System.out.println("Do you want to print courses? 0/1");
-							if(scan.nextInt() == 1){
+							if(InputHandler.getInt() == 1){
 								courseManager.printCourses();
 							}
-							scan.nextLine();
 						}
 					}while(!tempBoolean);
 					studentManager.setMark(tempStudentID, tempCourseID);
 					break;
 				case 8:
 					System.out.println("Enter student ID:");
-					studentManager.printGrade(scan.nextLine());
+					studentManager.printGrade(InputHandler.getLine());
 					break;
 			}
 

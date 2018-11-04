@@ -1,6 +1,5 @@
 // package SCRAME;
 
-import java.util.*;
 public class AssessmentMark{
 	private Assessment assessment;
 	private AssessmentMark[] subAssessmentMark = new AssessmentMark[Assessment.MAX_SUBASSESSMENT];

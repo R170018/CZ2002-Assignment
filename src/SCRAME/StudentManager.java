@@ -1,7 +1,5 @@
 // package SCRAME;
-
 import java.util.*;
-
 public class StudentManager {
     private ArrayList<Student> studentList = new ArrayList<Student>();
 
@@ -13,36 +11,35 @@ public class StudentManager {
                 return;
             }
         }
-        Scanner scan = new Scanner(System.in);
         System.out.println("Enter student name:");
-        String name = scan.nextLine();
+        String name = InputHandler.getLine();
 
         System.out.println("Enter student gender:");
-        char gender = scan.nextLine().charAt(0);
+        char gender = InputHandler.getLine().charAt(0);
 
 
         System.out.println("Enter student nationality:");
-        String nationality = scan.nextLine();
+        String nationality = InputHandler.getLine();
 
         System.out.println("Enter student address:");
-        String address = scan.nextLine();
+        String address = InputHandler.getLine();
 
 
         System.out.println("Enter student contact no.:");
-        int contactNo = scan.nextInt();
+        int contactNo = InputHandler.getInt();
 
 
         System.out.println("Enter student email:");
-        String email = scan.nextLine();
+        String email = InputHandler.getLine();
 
         System.out.println("Is student studying fullTime? (Y/N)");
-        Boolean fullTime = ('Y' == scan.nextLine().charAt(0));
+        Boolean fullTime = ('Y' == InputHandler.getLine().charAt(0));
 
         System.out.println("Is student (1) Exchange/ (2) Graduate / (3) Undergraduate?");
-        int studentType = scan.nextInt();
+        int studentType = InputHandler.getInt();
 
         System.out.println("Student Year for Student? (e.g. 2018)");
-        int studyYear = scan.nextInt();
+        int studyYear = InputHandler.getInt();
 
 
         Student newStudent = new Student(studentID, name, gender, nationality, address, contactNo, email, fullTime, studentType, studyYear);

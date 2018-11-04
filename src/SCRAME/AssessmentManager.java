@@ -1,4 +1,3 @@
-import java.util.*;
 
 public class AssessmentManager{
 	public static void printAssessment(Assessment assessment, int level){
@@ -25,20 +24,18 @@ public class AssessmentManager{
 
 	public static void setSubAssessments(Assessment assessment){
 		String subAssessmentName;
-		Scanner scan = new Scanner(System.in);
 		int tempNumOfSubAssessments;
 		do{
-			System.out.println("Number of assessments '" + assessment.getName() + "' has:(<" + assessment.MAX_SUBASSESSMENT + ")");
-			tempNumOfSubAssessments = scan.nextInt();
-			scan.nextLine();
+			System.out.println("Number of assessment components '" + assessment.getName() + "' has:(<" + assessment.MAX_SUBASSESSMENT + ")");
+			tempNumOfSubAssessments = InputHandler.getInt();
 		}while(!assessment.setNumOfSubAssessments(tempNumOfSubAssessments));
 		//terminate condition
 		if(tempNumOfSubAssessments > 0){
 			//loop to create sub-components for current assessment
 			for(int i=0; i<tempNumOfSubAssessments; i++){
-				System.out.println("Sub components of '" + assessment.getName() + "'-----------------------");
-				System.out.println("Name of sub-component " + (i+1) + ":");
-				subAssessmentName = scan.nextLine();
+				System.out.println("Assessment components of '" + assessment.getName() + "'-----------------------");
+				System.out.println("Name of component " + (i+1) + ":");
+				subAssessmentName = InputHandler.getLine();
 				assessment.setSubAssessment(i, subAssessmentName);
 			}
 			//recursive calls

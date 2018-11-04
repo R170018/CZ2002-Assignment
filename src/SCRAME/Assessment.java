@@ -1,6 +1,4 @@
-//package SCRAME;
 
-import java.util.*;
 public class Assessment{
 	public static final int MAX_SUBASSESSMENT = 4;
 	private Assessment[] subAssessment = new Assessment[MAX_SUBASSESSMENT];

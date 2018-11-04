@@ -67,7 +67,7 @@ public class Student extends PersonSuperClass {
 
     public void printGrade() {
         if(grade.size() == 0){
-            System.out.println("Student has not taken any courses.")
+            System.out.println("Student has not taken any courses.");
         }
         else{
             for(int i=0; i<grade.size(); i++){

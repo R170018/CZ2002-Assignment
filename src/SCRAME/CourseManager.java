@@ -9,24 +9,14 @@ public class CourseManager{
 		courses.add(new Course(courseID));
 	}
 
-	public Boolean setAssessment(String courseID){
-		Scanner scan = new Scanner(System.in);
-		int numOfAssessments;
+	public void setAssessment(String courseID){
 		//find the target course to set assessments
-		Course courseToSet = null;
-		for(int i=0; i<courses.size(); i++){
-			if(courses.get(i).getCourseId().equals(courseID)){
-				courseToSet = courses.get(i);
-				break;
-			}
-		}
+		Course courseToSet = getCourse(courseID);
 		if(courseToSet != null){
 			courseToSet.setAssessment();
-			return true;
 		}
 		else{
 			System.out.println("ERROR: Course does not exist.");
-			return false;
 		}
 		
 	}
