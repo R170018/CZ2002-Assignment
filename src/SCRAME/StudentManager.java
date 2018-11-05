@@ -1,45 +1,51 @@
 // package SCRAME;
+
 import java.util.*;
-public class StudentManager {
+
+public class StudentManager 
+{
     private ArrayList<Student> studentList = new ArrayList<Student>();
 
-    public void addStudent(String studentID) {
+    public void addStudent(String studentID) 
+    {
         //TODO check if student exists
-        for (Student student : studentList) {
+        for (Student student : studentList) 
+        {
             if (studentID.equals(student.getStudentID())) { // if there is same student id
                 System.out.println("Invalid input. StudentID already exist.");
                 return;
             }
         }
+        Scanner scan = new Scanner(System.in);
         System.out.println("Enter student name:");
-        String name = InputHandler.getLine();
+        String name = scan.nextLine();
 
         System.out.println("Enter student gender:");
-        char gender = InputHandler.getLine().charAt(0);
+        char gender = scan.nextLine().charAt(0);
 
 
         System.out.println("Enter student nationality:");
-        String nationality = InputHandler.getLine();
+        String nationality = scan.nextLine();
 
         System.out.println("Enter student address:");
-        String address = InputHandler.getLine();
+        String address = scan.nextLine();
 
 
         System.out.println("Enter student contact no.:");
-        int contactNo = InputHandler.getInt();
+        String contactNo = scan.nextLine();
 
 
         System.out.println("Enter student email:");
-        String email = InputHandler.getLine();
+        String email = scan.nextLine();
 
         System.out.println("Is student studying fullTime? (Y/N)");
-        Boolean fullTime = ('Y' == InputHandler.getLine().charAt(0));
+        Boolean fullTime = ('Y' == scan.nextLine().charAt(0));
 
         System.out.println("Is student (1) Exchange/ (2) Graduate / (3) Undergraduate?");
-        int studentType = InputHandler.getInt();
+        int studentType = scan.nextInt();
 
         System.out.println("Student Year for Student? (e.g. 2018)");
-        int studyYear = InputHandler.getInt();
+        int studyYear = scan.nextInt();
 
 
         Student newStudent = new Student(studentID, name, gender, nationality, address, contactNo, email, fullTime, studentType, studyYear);

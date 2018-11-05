@@ -1,12 +1,45 @@
 //package SCRAME;
 
 import java.util.*;
-public class CourseManager{
+
+public class CourseManager
+{
 	private ArrayList<Course> courses = new ArrayList<Course>();
 
-	public void addCourse(String courseID){
+	public void addCourse(String courseID)
+	{
+		
 		//TODO:check if course already added
-		courses.add(new Course(courseID));
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("input course ID: ");
+		String tempCourseID = InputHandler.getLine();
+
+		System.out.println("input course name: ");
+		String tempCourseName = InputHandler.getLine();
+
+		System.out.println("input course size: ");
+		int tempCourseSize = InputHandler.getInt();
+
+		System.out.println("intput lecture group number");
+		int templecGroupNum = InputHandler.getInt();
+
+		System.out.println("intput laborotary group number");
+		int templabGroupNum = InputHandler.getInt();
+
+		System.out.println("intput tutorial group number");
+		int temptutGroupNum = InputHandler.getInt();
+
+		System.out.println("input the number of instructors: ");
+		int tempProfNum = InputHandler.getInt();
+
+		Professor[] tempProfArr = new Professor[tempProfNum];
+		for(int i = 0; i < tempProfNum; i ++)
+		{
+			System.out.println("input the ");
+		}
+		
+		courses.add(new Course(tempCourseID, tempCourseName, tempCourseSize, templecGroupNum, templabGroupNum, temptutGroupNum, tempProfNum));
 	}
 
 	public void setAssessment(String courseID){

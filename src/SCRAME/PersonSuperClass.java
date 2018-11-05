@@ -1,37 +1,51 @@
-// package SCRAME;
+//package SCRAME;
 
-public class PersonSuperClass {
-    private String numberID;
+public class PersonSuperClass 
+{
     private String name;
     private char gender;
     private String nationality;
     private String address;
-    private int contactNo;
+    private String contactNum;
     private String email;
 
-    public PersonSuperClass(String numberID, String name, char gender, String nationality, String address, int contactNo, String email) {
-        this.numberID = numberID;
+    public PersonSuperClass(String name, char gender, String nationality, String address, String contactNum, String email) 
+    {
         this.name = name;
         this.gender = gender;
         this.nationality = nationality;
         this.address = address;
-        this.contactNo = contactNo;
+        this.contactNum = contactNum;
         this.email = email;
     }
 
-    public String getNumberID() {
-        return numberID;
-    }
-
-    public void setNumberID(String numberID) {
-        this.numberID = numberID;
-    }
-
-    public String getName() {
+    public String getName() 
+    {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public char getGender()
+    {
+        return gender;
+    }
+
+    public String getNationality()
+    {
+        return nationality;
+    }
+
+    public String getAddress()
+    {
+        return address;
+    }
+
+    public String getContactNum()
+    {
+        return contactNum;
+    }
+
+    public String getEmail()
+    {
+        return email;
     }
 }
