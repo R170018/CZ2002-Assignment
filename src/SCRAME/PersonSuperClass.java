@@ -2,20 +2,45 @@
 
 public class PersonSuperClass 
 {
-    private String name;
-    private char gender;
-    private String nationality;
-    private String address;
-    private String contactNum;
-    private String email;
+    private String name = null;
+    private char gender = 'N';
+    private String nationality = null;
+    private String address = null;
+    private String contactNum = null;
+    private String email = null;
 
-    public PersonSuperClass(String name, char gender, String nationality, String address, String contactNum, String email) 
+    public PersonSuperClass(String name)
     {
         this.name = name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public void setGender(char gender)
+    {
         this.gender = gender;
+    }
+
+    public void setNationality(String nationality)
+    {
         this.nationality = nationality;
+    }
+
+    public void setAddress(String address)
+    {
         this.address = address;
+    }
+
+    public void setContactNum(String contactNum)
+    {
         this.contactNum = contactNum;
+    }
+
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
@@ -48,4 +73,6 @@ public class PersonSuperClass
     {
         return email;
     }
+
+
 }

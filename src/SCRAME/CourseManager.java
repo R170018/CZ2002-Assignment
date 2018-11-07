@@ -1,91 +1,106 @@
-//package SCRAME;
-
 import java.util.*;
 
 public class CourseManager
 {
-	private ArrayList<Course> courses = new ArrayList<Course>();
+	private ArrayList<Course> courseList = new ArrayList<Course>();
 
-	public void addCourse(String courseID)
+	public Course addCourse(String courseID, String courseName)
 	{
-		
-		//TODO:check if course already added
-		Scanner sc = new Scanner(System.in);
+		Course tempCourse = new Course(courseID, courseName);
+		courseList.add(tempCourse); 
+		return tempCourse;
+	}
 
-		System.out.println("input course ID: ");
-		String tempCourseID = InputHandler.getLine();
+	public void addCourseDetails(Course course)
+	{
 
-		System.out.println("input course name: ");
-		String tempCourseName = InputHandler.getLine();
+		System.out.println("Enter course size: ");
+		course.setCourseSize(InputHandler.getInt());
 
-		System.out.println("input course size: ");
-		int tempCourseSize = InputHandler.getInt();
+		System.out.println("Enter lecture group number: ");
+		course.setLecGroupNum(InputHandler.getInt());
+		course.setLecGroupSize();
+		course.setLecGroupList();
 
-		System.out.println("intput lecture group number");
-		int templecGroupNum = InputHandler.getInt();
+		System.out.println("Enter laborotary group number: ");
+		course.setLabGroupNum(InputHandler.getInt());
+		course.setLabGroupSize();
+		course.setLabGroupList();
 
-		System.out.println("intput laborotary group number");
-		int templabGroupNum = InputHandler.getInt();
+		System.out.println("Enter tutorial group number: ");
+		course.setTutGroupNum(InputHandler.getInt());
+		course.setTutGroupSize();
+		course.setTutGroupList();
+	}
 
-		System.out.println("intput tutorial group number");
-		int temptutGroupNum = InputHandler.getInt();
+	public boolean addProfInCourse(Course course, Professor prof)
+	{
+		return course.addProf(prof);
+	}
 
-		System.out.println("input the number of instructors: ");
-		int tempProfNum = InputHandler.getInt();
+	public String[] addStudentInCourse(Course course, Student student)
+	{
+		return course.addStudent(student);
+	}
 
-		Professor[] tempProfArr = new Professor[tempProfNum];
-		for(int i = 0; i < tempProfNum; i ++)
+	public Boolean haveCourse(String courseID)
+	{
+		for(Course course : courseList)
 		{
-			System.out.println("input the ");
-		}
-		
-		courses.add(new Course(tempCourseID, tempCourseName, tempCourseSize, templecGroupNum, templabGroupNum, temptutGroupNum, tempProfNum));
-	}
-
-	public void setAssessment(String courseID){
-		//find the target course to set assessments
-		Course courseToSet = getCourse(courseID);
-		if(courseToSet != null){
-			courseToSet.setAssessment();
-		}
-		else{
-			System.out.println("ERROR: Course does not exist.");
-		}
-		
-	}
-
-	public void printCourses(){
-		System.out.println("Courses----------------------------");
-		for(int i=0; i<courses.size(); i++){
-			System.out.println(courses.get(i).getCourseId());
-		}
-	}
-
-	public Course getCourse(String courseID){
-		for(int i=0; i<courses.size(); i++){
-			if(courses.get(i).getCourseId().equals(courseID)){
-				return courses.get(i);
-			}
-		}
-		return null;
-	}
-
-	public Boolean haveCourse(String courseID){
-		for(int i=0; i<courses.size(); i++){
-			if(courses.get(i).getCourseId().equals(courseID)){
+			if(courseID.equals(course.getCourseID()))
+			{
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public Boolean printAssessment(String courseID){
+	public Course getCourse(String courseID)
+	{
+		for(Course course : courseList)
+		{
+			if(courseID.equals(course.getCourseID()))
+			{
+				return course;
+			}
+		}
+		return null;
+	}
+
+	public void printCourseList()
+	{
+		System.out.println("Courses List----------------------------");
+		for(Course course : courseList)
+		{
+			course.printCourse();
+		}
+	}
+
+	public void setAssessment(String courseID)
+	{
+		//find the target course to set assessments
+		Course courseToSet = getCourse(courseID);
+		if(courseToSet != null)
+		{
+			courseToSet.setAssessment();
+		}
+		else
+		{
+			System.out.println("ERROR: Course does not exist.");
+		}
+		
+	}
+
+	public Boolean printAssessment(String courseID)
+	{
 		Course courseToPrint = getCourse(courseID);
-		if(courseToPrint == null){
+		if(courseToPrint == null)
+		{
 			System.out.println("ERROR: Course does not exist.");
 			return false;
 		}
-		else{
+		else
+		{
 			System.out.println("//Course structure-------------------------");
 			courseToPrint.printAssessment();
 			return true;

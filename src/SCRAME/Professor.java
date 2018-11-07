@@ -1,13 +1,12 @@
 public class Professor extends PersonSuperClass
 {
-	private String profID;
-	private String rank;
+	private String profID = null;
+	private String rank = null;
 
-	public Professor(String profID, String rank, String name, char gender, String nationality, String address, String contactNum, String email)
+	public Professor(String profID, String profName)
 	{
-		super(name, gender, nationality, address, contactNum, email);
+		super(profName);
 		this.profID = profID;
-		this.rank = rank;
 	}
 
 	public String getProfID()
@@ -18,5 +17,15 @@ public class Professor extends PersonSuperClass
 	public String getRank()
 	{
 		return rank;
+	}
+
+	public void setRank(String rank)
+	{
+		this.rank = rank;
+	}
+
+	public void printProf()
+	{
+		System.out.println("Professor ID: " +  this.profID + "   " + "Name: " + this.getName());
 	}
 }

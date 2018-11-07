@@ -17,60 +17,131 @@ public class Course
 	private Group[] labGroupList;
 	private Group[] tutGroupList;
 	private int profNum;
-	private Professor[] profList;
+	private ArrayList<Professor> profList = new ArrayList<Professor>();
 	private Assessment assessment;
 
-	public Course(String courseID, String courseName, int courseSize, int lecGroupNum, int labGroupNum, int tutGroupNum, int profNum, Professor[] profArr)
+	public Course(String courseID, String courseName)
 	{
-		this.courseID = courseID;
 		this.courseName = courseName;
+		this.courseID = courseID;
+	}
+
+	public String getCourseID()
+	{
+		return courseID;
+	}
+
+	public int getProfNum()
+	{
+		return profNum;
+	}
+
+	public void setCourseSize(int courseSize)
+	{
 		this.courseSize = courseSize;
+	}
+
+	public void setLecGroupNum(int lecGroupNum)
+	{
 		this.lecGroupNum = lecGroupNum;
+	}
+
+	public void setLabGroupNum(int labGroupNum)
+	{
 		this.labGroupNum = labGroupNum;
+	}
+
+	public void setTutGroupNum(int tutGroupNum)
+	{
 		this.tutGroupNum = tutGroupNum;
+	}
+
+	public void setLecGroupSize()
+	{
 		this.lecGroupSize = courseSize / lecGroupNum + 1;
+	}
+
+	public void setLabGroupSize()
+	{
 		this.labGroupSize = courseSize / labGroupNum + 1;
+	}
+
+	public void setTutGroupSize()
+	{
 		this.tutGroupSize = courseSize / tutGroupNum + 1;
+	}
+
+	public void setLecGroupList()
+	{
 		this.lecGroupList = new Group[lecGroupNum];
+		for(int i = 1; i <= lecGroupNum; i++)
+		{
+			System.out.println("input ID of lecture group" + i + ": ");
+			String tempID = InputHandler.getLine();
+			lecGroupList[i - 1] = new Group(lecGroupSize, tempID, "Lecture");
+		}
+	}
+
+	public void setLabGroupList()
+	{
 		this.labGroupList = new Group[labGroupNum];
+		for(int i = 1; i <= labGroupNum; i++)
+		{
+			System.out.println("input ID of laboratory group" + i + ": ");
+			String tempID = InputHandler.getLine();
+			labGroupList[i - 1] = new Group(labGroupSize, tempID, "Laboratory");
+		}
+	}
+
+	public void setTutGroupList()
+	{
 		this.tutGroupList = new Group[tutGroupNum];
-		this.profNum = profNum;
-		profList = new Professor[profNum];
-		this.profList = profArr;
-		this.assessment = new Assessment(courseID);
-
-
-		String tempID;
-		Scanner sc = new Scanner(System.in);
-
-		for(int i = 0; i < lecGroupNum; i++)
+		for(int i = 1; i <= tutGroupNum; i++)
 		{
-			System.out.println("input ID of lecture group" + i);
-			tempID = InputHandler.getLine();
-			lecGroupList[i] = new Group(lecGroupSize, tempID, "Lecture");
+			System.out.println("input ID of tutorial group" + i + ": ");
+			String tempID = InputHandler.getLine();
+			tutGroupList[i - 1] = new Group(tutGroupSize, tempID, "Tutorial");
 		}
+	}
 
-		for(int i = 0; i < labGroupNum; i++)
+	public void setAssessment()
+	{
+		assessment = new Assessment(courseID);
+		AssessmentManager.setSubAssessments(assessment);
+	}
+
+	public void printCourse()
+	{
+		System.out.println("Course ID: " + this.courseID + "          " + "Course Name: " + this.courseName);
+	}
+
+	public void printAssessment()
+	{
+		AssessmentManager.printAssessment(assessment, 0);
+	}
+
+	public Assessment getAssessment()
+	{
+		return assessment;
+	}
+
+	public boolean addProf(Professor prof)
+	{
+		for(Professor temp : profList)
 		{
-			System.out.println("input ID of laboratory group" + i);
-			tempID = InputHandler.getLine();
-			labGroupList[i] = new Group(labGroupSize, tempID, "Laboratory");
+			if(temp.getProfID() == prof.getProfID())
+			{
+				return false;
+			}
 		}
-
-		for(int i = 0; i < tutGroupNum; i++)
-		{
-			System.out.println("input ID of tutorial group" + i);
-			tempID = InputHandler.getLine();
-			tutGroupList[i] = new Group(tutGroupSize, tempID, "Lecture");
-		}
-
-
+		profList.add(prof);
+		return true;
 	}
 
 	public String[] addStudent(Student student)
 	{
 		String groupArr[] = new String[3];
-		groupArr[0] = null;
+		groupArr[0] = "FULL";
 		groupArr[1] = null;
 		groupArr[2] = null;
 
@@ -78,7 +149,7 @@ public class Course
 		{
 			if(lecGroupList[i].getVacancy() != 0)
 			{
-				if(!lecGroupList[i].searchStudent(student))
+				if(lecGroupList[i].searchStudent(student) == false)
 				{
 					lecGroupList[i].addStudent(student);
 					groupArr[0] = lecGroupList[i].getGroupID();
@@ -96,7 +167,6 @@ public class Course
 				break;
 			}
 		}
-		groupArr[0] = "FULL";
 
 		if(groupArr[0] == "FULL" || groupArr[0] == "EXIST");
 		else
@@ -120,21 +190,5 @@ public class Course
 			}
 		}
 		return groupArr;
-	}
-
-	public void setAssessment(){
-		AssessmentManager.setSubAssessments(assessment);
-	}
-
-	public String getCourseId(){
-		return courseID;
-	}
-
-	public void printAssessment(){
-		AssessmentManager.printAssessment(assessment, 0);
-	}
-
-	public Assessment getAssessment(){
-		return assessment;
 	}
 }

@@ -6,17 +6,14 @@ public class Student extends PersonSuperClass
 {
     private String studentID;
     private ArrayList <Grade> grade = new ArrayList <Grade>();
-    private Boolean fullTime; // Full time/ Part-time
-    private int studentType; // Exchange/ Graduate / Undergraduate
-    private int studyYear;
+    private Boolean fullTime = true; // Full time/ Part-time
+    private int studentType = 0; // Exchange/ Graduate / Undergraduate
+    private int studyYear = 0;
 
-    public Student(String studentID, String name, char gender, String nationality, String address, String contactNum, String email, Boolean fullTime, int studentType, int studyYear) 
+    public Student(String studentID, String studentName)
     {
-        super(name, gender, nationality, address, contactNum, email);
+        super(studentName);
         this.studentID = studentID;
-        this.fullTime = fullTime;
-        this.studentType = studentType;
-        this.studyYear = studyYear;
     }
 
     public void createMarks(String courseID) 
@@ -35,7 +32,7 @@ public class Student extends PersonSuperClass
         for(int i = 0; i < grade.size(); i++)
         {
             tempCourse = grade.get(i).getCourse();
-            if(tempCourse.getCourseId().equals(courseID))
+            if(tempCourse.getCourseID().equals(courseID))
             {
                 return grade.get(i);
             }
@@ -61,8 +58,7 @@ public class Student extends PersonSuperClass
 
     public void printStudent() 
     {
-        System.out.println("StudentID : " +  this.studentID);
-        System.out.println("Name : " +  this.getName());
+        System.out.println("StudentID: " +  this.studentID + "   " + "Name: " + this.getName());
     }
 
     public String getStudentID()
@@ -80,6 +76,21 @@ public class Student extends PersonSuperClass
 
     public int getStudyYear() {
         return studyYear;
+    }
+
+    public void setStudentType(int studentType)
+    {
+        this.studentType = studentType;
+    }
+
+    public void setStudyYear(int studyYear)
+    {
+        this.studyYear = studyYear;
+    }
+
+    public void setFullTime(boolean fullTime)
+    {
+        this.fullTime = fullTime;
     }
 
 }

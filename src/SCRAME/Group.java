@@ -1,16 +1,15 @@
-//package SCRAME;
-
 public class Group
 {
 	private int vacancy;
 	private String groupID;
 	private int size;
 	private String groupType;
-	private Student[] studentList;
+	private Student[] studentList;	
 
 	public Group(int size, String groupID, String groupType)
 	{
 		this.size = size;
+		this.vacancy = size;
 		this.groupID = groupID;
 		this.groupType = groupType;
 		this.studentList = new Student[this.size];
@@ -24,9 +23,10 @@ public class Group
 
 	public boolean searchStudent(Student student)
 	{
-		for(int i = 0; i < size; i++)
+		for(int i = 0; i < (size - vacancy); i++)
 		{
-			if(studentList[i] == student)
+			System.out.println(size - vacancy);
+			if(studentList[i].getStudentID().equals(student.getStudentID()))
 				return true;
 		}
 		return false;
