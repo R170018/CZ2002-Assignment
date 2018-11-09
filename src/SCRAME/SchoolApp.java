@@ -9,7 +9,6 @@ public class SchoolApp
 		Boolean tempBoolean;
 		Student tempStudent;
 		Professor tempProf;
-		//change
 		Course tempCourse;
 		String tempStudentID, tempStudentName;
 		String tempProfID, tempProfName;
@@ -86,11 +85,11 @@ public class SchoolApp
 					break;
 
 				case 3:
-					System.out.println("Input the course ID: ");
+					System.out.println("Input course ID: ");
 					tempCourseID = InputHandler.getLine();
 					if(!courseManager.haveCourse(tempCourseID))
 					{
-						System.out.println("Input the course Name: ");
+						System.out.println("Input course Name: ");
 						tempCourseName = InputHandler.getLine();
 						//change
 						// tempCourse = courseManager.addCourse(tempCourseID, tempCourseName);
@@ -122,8 +121,9 @@ public class SchoolApp
 						System.out.println("Enter professor ID:");
 						tempProfID = InputHandler.getLine();
 						do{	
-							boolean firstProfEntered = false;
+							boolean firstProfEntered = true;
 							if(!professorManager.haveProf(tempProfID)){
+								firstProfEntered = false;
 								System.out.println("Professor " + tempProfID + " doesn't exist.");
 								int tempInt;
 								do{
@@ -144,7 +144,7 @@ public class SchoolApp
 								        case 2:
 								        	System.out.println("Enter professor ID:");
 											tempProfID = InputHandler.getLine();
-											firstProfEntered = false;
+											//firstProfEntered = false;
 											break;
 										case 3:
 											professorManager.printProfList();
@@ -169,7 +169,13 @@ public class SchoolApp
 
 				case 4:
 					System.out.println("Enter the target course ID:");
-					courseManager.setAssessment(InputHandler.getLine());
+					tempCourseID = InputHandler.getLine();
+					if(courseManager.haveCourse(tempCourseID)){
+						courseManager.setAssessment(tempCourseID);
+					}
+					else{
+						System.out.println("Course does not exist!");
+					}
 					break;
 
 				case 5:
@@ -178,8 +184,13 @@ public class SchoolApp
 
 				case 6:
 					System.out.println("Enter course ID:");
-
-					courseManager.printAssessment(InputHandler.getLine());
+					tempCourseID = InputHandler.getLine();
+					if(courseManager.haveCourse(tempCourseID)){
+						courseManager.printAssessment(tempCourseID);
+					}
+					else{
+						System.out.println("Course does not exist!");
+					}
 					break;
 
 				case 7:
@@ -214,6 +225,10 @@ public class SchoolApp
 						System.out.println("Course does not exist!");
 						break;
 					}
+					else
+					{
+						tempCourse = courseManager.getCourse(tempStudentID);
+					}
 				
 
 					courseManager.addStudentToCourse(tempCourseID, tempStudent);
@@ -238,36 +253,42 @@ public class SchoolApp
 					// }
 
 				case 10:
-					System.out.println("Enter professor ID:");
-					tempProfID = InputHandler.getLine();
-					if(professorManager.haveProf(tempProfID)){
-						System.out.println("Prof already exist!");
+					System.out.println("Enter course ID:");
+					tempCourseID = InputHandler.getLine();
+					if(!courseManager.haveCourse(tempCourseID)){
+						System.out.println("Course does not exist!");
 						break;
 					}
-					System.out.println("Enter professor name: ");
-		        	tempProfName = InputHandler.getLine();
-		        	professorManager.addProf(tempProfID, tempProfName);
-		        	professorManager.printProfList();
+					
+					System.out.println("Enter professor ID:");
+					tempProfID = InputHandler.getLine();
+					if(!professorManager.haveProf(tempProfID)){
+						System.out.println("Professor does not exist!");
+						break;
+					}
+					else{
+						tempProf = professorManager.getProf(tempProfID);
+					}
+					
+					tempProf = professorManager.getProf(tempProfID);
+					courseManager.addProfToCourse(tempCourseID, tempProf);
 		        	break;
 
 				case 11:
 					System.out.println("Enter student ID:");
 					tempStudentID = InputHandler.getLine();
-					do
-					{
-						System.out.println("Enter course ID:");
-						tempCourseID = InputHandler.getLine();
-						tempBoolean = courseManager.haveCourse(tempCourseID);
-						if(!tempBoolean)
-						{
-							System.out.println("Course doesn't exist!");
-							System.out.println("Do you want to print course list? 0/1");
-							if(InputHandler.getInt() == 1)
-							{
-								courseManager.printCourseList();
-							}
-						}
-					}while(!tempBoolean);
+					if(!studentManager.haveStudent(tempStudentID)){
+						System.out.println("Student doesn't exist!");
+						break;
+					}
+
+					System.out.println("Enter course ID:");
+					tempCourseID = InputHandler.getLine();
+					if(!courseManager.haveCourse(tempCourseID)){
+						System.out.println("Course doesn't exist!");
+						break;
+					}
+
 					studentManager.setMark(tempStudentID, tempCourseID);
 					break;
 
@@ -275,6 +296,9 @@ public class SchoolApp
 					System.out.println("Enter student ID: ");
 					studentManager.printGrade(InputHandler.getLine());
 					break;
+
+				default:
+					System.out.println("Please enter a valid choice.");
 			}
 
 		}while(choice != 13);

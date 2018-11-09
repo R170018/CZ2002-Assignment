@@ -27,7 +27,7 @@ public class AssessmentMark{
 		if(assessment.getNumOfSubAssessments() > 0){
 			for(int i=0; i<assessment.getNumOfSubAssessments(); i++){
 				//recursive call
-				sum += subAssessmentMark[i].calGrade();
+				sum += subAssessmentMark[i].calGrade() * subAssessmentMark[i].getPercentage()/100.0;
 			}
 			setMark(sum);
 			return mark;
@@ -53,6 +53,10 @@ public class AssessmentMark{
 
 	public Assessment getAssessment(){
 		return assessment;
+	}
+
+	public int getPercentage(){
+		return assessment.getPercentage();
 	}
 
 	// public void printMark(int level){

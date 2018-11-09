@@ -72,7 +72,7 @@ public class ProfessorManager
 
 	public void printProfList()
 	{
-		System.out.println("Professor list----------------------------");
+		System.out.println("Professor list------------------------------------------------");
 		for(Professor prof : profList)
 		{
 			prof.printProf();

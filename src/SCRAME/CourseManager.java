@@ -23,7 +23,7 @@ public class CourseManager
 	public void addCourseDetails(String courseID/*change: Course course*/)
 	{
 		Course course = getCourse(courseID);
-		System.out.println("Enter course size: ");
+		System.out.println("Enter course capacity: ");
 		course.setCourseCapacity(InputHandler.getInt());
 
 		System.out.println("Enter number of lecture groups: ");
@@ -96,22 +96,17 @@ public class CourseManager
 		{
 			courseToSet.setAssessment();
 		}
-		else
-		{
-			System.out.println("Course does not exist!");
-		}
+		// else
+		// {
+		// 	System.out.println("Course does not exist!");
+		// }
 		
 	}
 
 	public void printAssessment(String courseID)
 	{
 		Course courseToPrint = getCourse(courseID);
-		if(courseToPrint == null)
-		{
-			System.out.println("Course does not exist!");
-		}
-		else
-		{
+		if(courseToPrint != null){
 			System.out.println("Course structure---------------------------");
 			courseToPrint.printAssessment();
 		}

@@ -16,6 +16,10 @@ public class Student extends PersonSuperClass
         this.studentID = studentID;
     }
 
+    public void createGrade(Course course){
+        grade.add(new Grade(course));
+    }
+
     public void createMarks(String courseID) 
     {
         Grade tempGrade;

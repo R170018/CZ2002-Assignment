@@ -7,10 +7,10 @@ public class AssessmentMarkManager{
 			System.out.printf("  ");
 		}
 		if(assessmentMark.getMark() < 0){
-			System.out.println(assessmentMark.getAssessment().getName() + ": No Mark");
+			System.out.println(assessmentMark.getAssessment().getName() + " (" + assessmentMark.getAssessment().getPercentage() + "%): No Mark");
 		}
 		else{
-			System.out.println(assessmentMark.getAssessment().getName() + ": " + assessmentMark.getMark());
+			System.out.println(assessmentMark.getAssessment().getName() + " (" + assessmentMark.getAssessment().getPercentage() + "%): " + assessmentMark.getMark());
 		}
 		if(numOfSubAssessmentMarks > 0){
 			for(int i=0; i<level; i++){

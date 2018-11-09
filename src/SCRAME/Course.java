@@ -147,7 +147,7 @@ public class Course
 	}
 
 	public void addStudent(Student student){
-		boolean hasVacancy = true;
+		boolean hasVacancy = false;
 		//check if student's already taking the course
 		for(int i=0; i<lecGroupNum; i++){
 			if(lecGroupList[i].haveStudent(student)){
@@ -160,7 +160,7 @@ public class Course
 			if(lecGroupList[i].getVacancy() != 0){
 				lecGroupList[i].addStudent(student);
 				System.out.println("Student " + student.getStudentID() + " is assigned to lecture group " + lecGroupList[i].getGroupID() + ".");
-				hasVacancy = false;
+				hasVacancy = true;
 				break;
 			}
 		}
@@ -182,6 +182,8 @@ public class Course
 					break;
 				}
 			}
+			//Pass course reference to student
+			student.createGrade(this);
 		}
 	}
 
