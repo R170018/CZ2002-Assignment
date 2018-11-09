@@ -28,15 +28,28 @@ public class StudentManager
         return false;
     }
 
-    public Student addStudent(String studentID, String studentName)
+    // change
+    // public Student addStudent(String studentID, String studentName)
+    // {
+    //     Student tempStudent = new Student(studentID, studentName);
+    //     studentList.add(tempStudent);
+    //     return tempStudent;
+    // }
+
+    public void addStudent(String studentID, String studentName)
     {
         Student tempStudent = new Student(studentID, studentName);
         studentList.add(tempStudent);
-        return tempStudent;
+        System.out.println("Add detail information for this student?(1 : yes, 0 : no): ");
+        if(InputHandler.getInt() == 1){
+            addStudentDetails(studentID);
+        }
+        System.out.println("Student " + studentID + " successfully added!");
     }
 
-    public void addStudentDetails(Student student)
-    {
+    public void addStudentDetails(String studentID/*change: Student student*/)
+    {   
+        Student student = getStudent(studentID);
         System.out.println("Enter gender(male: M; female: F): ");
         student.setGender(InputHandler.getLine().charAt(0));
 

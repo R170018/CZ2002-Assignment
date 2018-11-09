@@ -6,7 +6,7 @@ public class Course
 {
 	private String courseID;
 	private String courseName;
-	private int courseSize;
+	private int courseCapacity;
 	private int lecGroupSize;
 	private int labGroupSize;
 	private int tutGroupSize;
@@ -24,6 +24,7 @@ public class Course
 	{
 		this.courseName = courseName;
 		this.courseID = courseID;
+		assessment = new Assessment(courseID); 
 	}
 
 	public String getCourseID()
@@ -36,9 +37,9 @@ public class Course
 		return profNum;
 	}
 
-	public void setCourseSize(int courseSize)
+	public void setCourseCapacity(int courseSize)
 	{
-		this.courseSize = courseSize;
+		this.courseCapacity = courseCapacity;
 	}
 
 	public void setLecGroupNum(int lecGroupNum)
@@ -58,17 +59,17 @@ public class Course
 
 	public void setLecGroupSize()
 	{
-		this.lecGroupSize = courseSize / lecGroupNum + 1;
+		this.lecGroupSize = courseCapacity / lecGroupNum + 1;
 	}
 
 	public void setLabGroupSize()
 	{
-		this.labGroupSize = courseSize / labGroupNum + 1;
+		this.labGroupSize = courseCapacity / labGroupNum + 1;
 	}
 
 	public void setTutGroupSize()
 	{
-		this.tutGroupSize = courseSize / tutGroupNum + 1;
+		this.tutGroupSize = courseCapacity / tutGroupNum + 1;
 	}
 
 	public void setLecGroupList()
@@ -76,7 +77,7 @@ public class Course
 		this.lecGroupList = new Group[lecGroupNum];
 		for(int i = 1; i <= lecGroupNum; i++)
 		{
-			System.out.println("input ID of lecture group" + i + ": ");
+			System.out.println("Input ID for lecture group" + i + ": ");
 			String tempID = InputHandler.getLine();
 			lecGroupList[i - 1] = new Group(lecGroupSize, tempID, "Lecture");
 		}
@@ -87,7 +88,7 @@ public class Course
 		this.labGroupList = new Group[labGroupNum];
 		for(int i = 1; i <= labGroupNum; i++)
 		{
-			System.out.println("input ID of laboratory group" + i + ": ");
+			System.out.println("Input ID for laboratory group" + i + ": ");
 			String tempID = InputHandler.getLine();
 			labGroupList[i - 1] = new Group(labGroupSize, tempID, "Laboratory");
 		}
@@ -98,7 +99,7 @@ public class Course
 		this.tutGroupList = new Group[tutGroupNum];
 		for(int i = 1; i <= tutGroupNum; i++)
 		{
-			System.out.println("input ID of tutorial group" + i + ": ");
+			System.out.println("Input ID for tutorial group" + i + ": ");
 			String tempID = InputHandler.getLine();
 			tutGroupList[i - 1] = new Group(tutGroupSize, tempID, "Tutorial");
 		}
@@ -106,13 +107,19 @@ public class Course
 
 	public void setAssessment()
 	{
-		assessment = new Assessment(courseID);
 		AssessmentManager.setSubAssessments(assessment);
 	}
 
+	//change
 	public void printCourse()
 	{
-		System.out.println("Course ID: " + this.courseID + "          " + "Course Name: " + this.courseName);
+		System.out.println("Course ID: " + this.courseID);
+		System.out.println("Course Name: " + this.courseName);
+		System.out.println("Professor in charge: ");
+		for(int i=0; i<profList.size(); i++){
+			System.out.println("	ID:" + profList.get(i).getProfID() + "	Name:" + profList.get(i).getName());
+		}
+		System.out.println("---------------------------------------------");
 	}
 
 	public void printAssessment()
@@ -125,70 +132,111 @@ public class Course
 		return assessment;
 	}
 
-	public boolean addProf(Professor prof)
+	//change
+	public void addProf(Professor prof)
 	{
 		for(Professor temp : profList)
 		{
-			if(temp.getProfID() == prof.getProfID())
-			{
-				return false;
+			if(temp.getProfID().equals(prof.getProfID()))
+			{	
+				System.out.println("Unsuccessful! Professor " + prof.getProfID() + " is already teaching course " + courseID + "!" );
 			}
 		}
 		profList.add(prof);
-		return true;
+		System.out.println("Professor " + prof.getProfID() + " has been successfully assigned to course " + courseID + ".");
 	}
 
-	public String[] addStudent(Student student)
-	{
-		String groupArr[] = new String[3];
-		groupArr[0] = "FULL";
-		groupArr[1] = null;
-		groupArr[2] = null;
-
-		for(int i = 0; i < lecGroupNum; i++)
-		{
-			if(lecGroupList[i].getVacancy() != 0)
-			{
-				if(lecGroupList[i].searchStudent(student) == false)
-				{
-					lecGroupList[i].addStudent(student);
-					groupArr[0] = lecGroupList[i].getGroupID();
-					break;
-				}
-				else
-				{
-					groupArr[0] = "EXIST";
-					break;
-				}
-			}
-			else if(lecGroupList[i].searchStudent(student))
-			{
-				groupArr[0] = "EXIST";
+	public void addStudent(Student student){
+		boolean hasVacancy = true;
+		//check if student's already taking the course
+		for(int i=0; i<lecGroupNum; i++){
+			if(lecGroupList[i].haveStudent(student)){
+				System.out.println("Unsuccessful! Student " + student.getStudentID() + " is already taking course " + courseID + ".");
 				break;
 			}
 		}
-
-		if(groupArr[0] == "FULL" || groupArr[0] == "EXIST");
-		else
-		{	for(int i = 0; i < labGroupNum; i++)
-			{
-				if(labGroupList[i].getVacancy() != 0)
-				{
-					labGroupList[i].addStudent(student);
-					groupArr[1] = labGroupList[i].getGroupID();
+		//check vacancy and add student
+		for(int i=0; i<lecGroupNum; i++){
+			if(lecGroupList[i].getVacancy() != 0){
+				lecGroupList[i].addStudent(student);
+				System.out.println("Student " + student.getStudentID() + " is assigned to lecture group " + lecGroupList[i].getGroupID() + ".");
+				hasVacancy = false;
+				break;
+			}
+		}
+		if(!hasVacancy){
+			System.out.println("Unsuccessful! Course " + courseID + " has no vacancy.");
+		}
+		else{
+			for(int i=0; i<tutGroupNum; i++){
+				if(tutGroupList[i].getVacancy() != 0){
+					tutGroupList[i].addStudent(student);
+					System.out.println("Student " + student.getStudentID() + " is assigned to tutorial group " + tutGroupList[i].getGroupID() + ".");
 					break;
 				}
 			}
-
-			for(int i = 0; i < tutGroupNum; i++)
-			{
-				if(tutGroupList[i].getVacancy() != 0)
-				{
-					tutGroupList[i].addStudent(student);
-					groupArr[2] = tutGroupList[i].getGroupID();
+			for(int i=0; i<labGroupNum; i++){
+				if(labGroupList[i].getVacancy() != 0){
+					labGroupList[i].addStudent(student);
+					System.out.println("Student " + student.getStudentID() + " is assigned to lab group " + labGroupList[i].getGroupID() + ".");
+					break;
 				}
 			}
 		}
-		return groupArr;
 	}
+
+	//change
+	// public String[] addStudent(Student student)
+	// {
+	// 	String groupArr[] = new String[3];
+	// 	groupArr[0] = "FULL";
+	// 	groupArr[1] = null;
+	// 	groupArr[2] = null;
+
+	// 	for(int i = 0; i < lecGroupNum; i++)
+	// 	{
+	// 		if(lecGroupList[i].getVacancy() != 0)
+	// 		{
+	// 			if(lecGroupList[i].searchStudent(student) == false)
+	// 			{
+	// 				lecGroupList[i].addStudent(student);
+	// 				groupArr[0] = lecGroupList[i].getGroupID();
+	// 				break;
+	// 			}
+	// 			else
+	// 			{
+	// 				groupArr[0] = "EXIST";
+	// 				break;
+	// 			}
+	// 		}
+	// 		else if(lecGroupList[i].searchStudent(student))
+	// 		{
+	// 			groupArr[0] = "EXIST";
+	// 			break;
+	// 		}
+	// 	}
+
+	// 	if(groupArr[0] == "FULL" || groupArr[0] == "EXIST");
+	// 	else
+	// 	{	for(int i = 0; i < labGroupNum; i++)
+	// 		{
+	// 			if(labGroupList[i].getVacancy() != 0)
+	// 			{
+	// 				labGroupList[i].addStudent(student);
+	// 				groupArr[1] = labGroupList[i].getGroupID();
+	// 				break;
+	// 			}
+	// 		}
+
+	// 		for(int i = 0; i < tutGroupNum; i++)
+	// 		{
+	// 			if(tutGroupList[i].getVacancy() != 0)
+	// 			{
+	// 				tutGroupList[i].addStudent(student);
+	// 				groupArr[2] = tutGroupList[i].getGroupID();
+	// 			}
+	// 		}
+	// 	}
+	// 	return groupArr;
+	// }
 }

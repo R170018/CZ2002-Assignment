@@ -26,7 +26,7 @@ public class AssessmentManager{
 		String subAssessmentName;
 		int tempNumOfSubAssessments;
 		do{
-			System.out.println("Number of assessment components '" + assessment.getName() + "' has:(<" + assessment.MAX_SUBASSESSMENT + ")");
+			System.out.println("Number of assessment components '" + assessment.getName() + "' has:(no larger than " + assessment.MAX_SUBASSESSMENT + ")");
 			tempNumOfSubAssessments = InputHandler.getInt();
 		}while(!assessment.setNumOfSubAssessments(tempNumOfSubAssessments));
 		//terminate condition

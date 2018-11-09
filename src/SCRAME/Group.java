@@ -21,7 +21,7 @@ public class Group
 		vacancy --;
 	}
 
-	public boolean searchStudent(Student student)
+	public boolean haveStudent(Student student)
 	{
 		for(int i = 0; i < (size - vacancy); i++)
 		{
