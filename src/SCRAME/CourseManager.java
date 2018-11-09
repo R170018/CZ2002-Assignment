@@ -28,17 +28,17 @@ public class CourseManager
 
 		System.out.println("Enter number of lecture groups: ");
 		course.setLecGroupNum(InputHandler.getInt());
-		course.setLecGroupSize();
+		//course.setLecGroupSize();
 		course.setLecGroupList();
 
 		System.out.println("Enter number of laborotary groups: ");
 		course.setLabGroupNum(InputHandler.getInt());
-		course.setLabGroupSize();
+		//course.setLabGroupSize();
 		course.setLabGroupList();
 
 		System.out.println("Enter number of tutorial groups: ");
 		course.setTutGroupNum(InputHandler.getInt());
-		course.setTutGroupSize();
+		//course.setTutGroupSize();
 		course.setTutGroupList();
 	}
 

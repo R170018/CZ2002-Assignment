@@ -172,6 +172,7 @@ public class SchoolApp
 					tempCourseID = InputHandler.getLine();
 					if(courseManager.haveCourse(tempCourseID)){
 						courseManager.setAssessment(tempCourseID);
+						courseManager.printAssessment(tempCourseID);
 					}
 					else{
 						System.out.println("Course does not exist!");

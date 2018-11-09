@@ -3,13 +3,14 @@
 import java.util.*;
 
 public class Course
-{
+{	
 	private String courseID;
 	private String courseName;
 	private int courseCapacity;
-	private int lecGroupSize;
-	private int labGroupSize;
-	private int tutGroupSize;
+	//change
+	// private int lecGroupSize;
+	// private int labGroupSize;
+	// private int tutGroupSize;
 	private int lecGroupNum;
 	private int labGroupNum;
 	private int tutGroupNum;
@@ -37,7 +38,7 @@ public class Course
 		return profNum;
 	}
 
-	public void setCourseCapacity(int courseSize)
+	public void setCourseCapacity(int courseCapacity)
 	{
 		this.courseCapacity = courseCapacity;
 	}
@@ -57,51 +58,62 @@ public class Course
 		this.tutGroupNum = tutGroupNum;
 	}
 
-	public void setLecGroupSize()
-	{
-		this.lecGroupSize = courseCapacity / lecGroupNum + 1;
-	}
+	//change
+	// public void setLecGroupSize()
+	// {
+	// 	this.lecGroupSize = courseCapacity / lecGroupNum + 1;
+	// }
 
-	public void setLabGroupSize()
-	{
-		this.labGroupSize = courseCapacity / labGroupNum + 1;
-	}
+	// public void setLabGroupSize()
+	// {
+	// 	this.labGroupSize = courseCapacity / labGroupNum + 1;
+	// }
 
-	public void setTutGroupSize()
-	{
-		this.tutGroupSize = courseCapacity / tutGroupNum + 1;
-	}
+	// public void setTutGroupSize()
+	// {
+	// 	this.tutGroupSize = courseCapacity / tutGroupNum + 1;
+	// }
+
 
 	public void setLecGroupList()
 	{
 		this.lecGroupList = new Group[lecGroupNum];
+		int size = courseCapacity / lecGroupNum;
 		for(int i = 1; i <= lecGroupNum; i++)
-		{
-			System.out.println("Input ID for lecture group" + i + ": ");
-			String tempID = InputHandler.getLine();
-			lecGroupList[i - 1] = new Group(lecGroupSize, tempID, "Lecture");
+		{	
+			if(i == lecGroupNum){
+				size = courseCapacity - (lecGroupNum-1) * size;
+			}
+			System.out.println("Lecture group " + i + ":");
+			lecGroupList[i - 1] = GroupManager.createGroup(size, "lecture");
 		}
 	}
 
 	public void setLabGroupList()
 	{
 		this.labGroupList = new Group[labGroupNum];
+		int size = courseCapacity / labGroupNum;
 		for(int i = 1; i <= labGroupNum; i++)
-		{
-			System.out.println("Input ID for laboratory group" + i + ": ");
-			String tempID = InputHandler.getLine();
-			labGroupList[i - 1] = new Group(labGroupSize, tempID, "Laboratory");
+		{	
+			if(i == labGroupNum){
+				size = courseCapacity - (labGroupNum-1) * size;
+			}
+			System.out.println("Lab group " + i + ":");
+			labGroupList[i - 1] = GroupManager.createGroup(size, "lab");
 		}
 	}
 
 	public void setTutGroupList()
 	{
 		this.tutGroupList = new Group[tutGroupNum];
+		int size = courseCapacity / tutGroupNum;
 		for(int i = 1; i <= tutGroupNum; i++)
-		{
-			System.out.println("Input ID for tutorial group" + i + ": ");
-			String tempID = InputHandler.getLine();
-			tutGroupList[i - 1] = new Group(tutGroupSize, tempID, "Tutorial");
+		{	
+			if(i == tutGroupNum){
+				size = courseCapacity - (tutGroupNum-1) * size;
+			}
+			System.out.println("Tutorial group " + i + ":");
+			tutGroupList[i - 1] = GroupManager.createGroup(size, "tutorial");
 		}
 	}
 
@@ -140,6 +152,7 @@ public class Course
 			if(temp.getProfID().equals(prof.getProfID()))
 			{	
 				System.out.println("Unsuccessful! Professor " + prof.getProfID() + " is already teaching course " + courseID + "!" );
+				return;
 			}
 		}
 		profList.add(prof);

@@ -4,7 +4,7 @@ public class AssessmentManager{
 		for(int i=0; i<level; i++){
 			System.out.printf("  ");
 		}
-		System.out.println(assessment.getName() + "  percentage: " + assessment.getPercentage() + "%");
+		System.out.println(assessment.getName() + "   " + assessment.getPercentage() + "%");
 		//terminate condition
 		if(assessment.getNumOfSubAssessments() > 0){
 			for(int i=0; i<level; i++){
