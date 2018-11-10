@@ -191,7 +191,7 @@ public class CourseManager
 		Course courseToSet = getCourse(courseID);
 		if(courseToSet != null)
 		{
-			courseToSet.setAssessment();
+			AssessmentManager.setSubAssessments(courseToSet.getAssessment());
 		}
 		
 	}
@@ -201,7 +201,7 @@ public class CourseManager
 		Course courseToPrint = getCourse(courseID);
 		if(courseToPrint != null){
 			System.out.println("Course structure---------------------------");
-			courseToPrint.printAssessment();
+			AssessmentManager.printAssessment(courseToPrint.getAssessment(), 0);
 		}
 	}
 

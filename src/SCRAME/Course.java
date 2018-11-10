@@ -134,16 +134,6 @@ public class Course
 		}
 	}
 
-	public void setAssessment()
-	{
-		AssessmentManager.setSubAssessments(assessment);
-	}
-
-	public void printAssessment()
-	{
-		AssessmentManager.printAssessment(assessment, 0);
-	}
-
 	public Assessment getAssessment()
 	{
 		return assessment;
