@@ -142,7 +142,7 @@ public class CourseManager
 			student.createGrade(course);
 
 			System.out.println("Student " + student.getStudentID() + " has been successfully assigned to course " + course.getCourseID() + ".");
-			}
+		}
 	}
 
 	public Boolean haveCourse(String courseID)

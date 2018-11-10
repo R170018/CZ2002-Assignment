@@ -10,7 +10,12 @@ public class AssessmentMarkManager{
 			System.out.println(assessmentMark.getAssessment().getName() + " (" + assessmentMark.getAssessment().getPercentage() + "%): No Mark");
 		}
 		else{
-			System.out.println(assessmentMark.getAssessment().getName() + " (" + assessmentMark.getAssessment().getPercentage() + "%): " + assessmentMark.getMark());
+			if(level > 0){
+				System.out.println(assessmentMark.getAssessment().getName() + " (" + assessmentMark.getAssessment().getPercentage() + "%): " + assessmentMark.getMark());
+			}
+			else{
+				System.out.println(assessmentMark.getAssessment().getName() + ": " + assessmentMark.getMark());
+			}
 		}
 		if(numOfSubAssessmentMarks > 0){
 			for(int i=0; i<level; i++){
@@ -32,6 +37,7 @@ public class AssessmentMarkManager{
 		if(tempNumOfSubAssessmentMarks > 0){
 			for(int i=0; i<tempNumOfSubAssessmentMarks; i++){
 				assessmentMark.setSubAssessmentMark(i, assessmentMark.getAssessment().getSubAssessment(i));
+				createSubAssessmentMarks(assessmentMark.getSubAssessmentMark(i));
 			}
 		}
 		else{

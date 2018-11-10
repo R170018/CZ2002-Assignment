@@ -26,7 +26,7 @@ public class AssessmentMark{
 	}
 
 	public AssessmentMark getSubAssessmentMark(int index){
-		if(index < assessment.getNumOfSubAssessments()){
+		if(index >= 0 && index < assessment.getNumOfSubAssessments()){
 			return subAssessmentMark[index];
 		}
 		return null;
