@@ -1,3 +1,4 @@
+
 public class Professor extends PersonSuperClass
 {
 	private String profID = null;

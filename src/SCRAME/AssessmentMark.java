@@ -1,6 +1,7 @@
 // package SCRAME;
+import java.io.Serializable;
 
-public class AssessmentMark{
+public class AssessmentMark implements Serializable{
 	private Assessment assessment;
 	private AssessmentMark[] subAssessmentMark = new AssessmentMark[Assessment.MAX_SUBASSESSMENT];
 	private int mark = -1;

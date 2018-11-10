@@ -1,6 +1,7 @@
 //package SCRAME;
+import java.io.Serializable;
 
-public class PersonSuperClass 
+public class PersonSuperClass implements Serializable
 {
     private String name = null;
     private char gender = 'N';

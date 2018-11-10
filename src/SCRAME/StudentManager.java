@@ -1,6 +1,7 @@
 import java.util.*;
+import java.io.Serializable;
 
-public class StudentManager 
+public class StudentManager implements Serializable
 {
     private ArrayList<Student> studentList = new ArrayList<Student>();
 

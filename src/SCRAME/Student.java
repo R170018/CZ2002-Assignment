@@ -1,8 +1,9 @@
 //package SCRAME;
 
 import java.util.*;
+//import java.io.Serializable;
 
-public class Student extends PersonSuperClass 
+public class Student extends PersonSuperClass
 {
     private String studentID;
     private ArrayList <Grade> grade = new ArrayList <Grade>();

@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Assessment{
+public class Assessment implements Serializable{
 	public static final int MAX_SUBASSESSMENT = 4;
 	private Assessment[] subAssessment = new Assessment[MAX_SUBASSESSMENT];
 	private String name;

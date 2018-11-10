@@ -1,6 +1,7 @@
 // package SCRAME;
+import java.io.Serializable;
 
-public class Grade{
+public class Grade implements Serializable{
 	private Course course;
 	private AssessmentMark assessmentMark;
 	private String grade;
