@@ -3,6 +3,7 @@ import java.util.*;
 public class CourseManager
 {
 	private ArrayList<Course> courseList = new ArrayList<Course>();
+	StudentManager studentManager = new StudentManager();
 
 	//change
 	// public Course addCourse(String courseID, String courseName)
@@ -209,6 +210,158 @@ public class CourseManager
 		if(tempCourse != null){
 			
 		}
+	}
+
+	//for 9. print course stats
+	void printGrade(String courseID, GroupType groupType){
+		Course course = getCourse(courseID);
+		Group[] groupList=null;
+		switch(groupType){
+			case Lecture: groupList=course.getLecGroupList();
+						  break;
+			case Tutorial: groupList=course.getTutGroupList();
+						  break;
+			case Lab: groupList=course.getLabGroupList(); 
+			          break;
+		}
+		
+		//for each group 
+		for (Group grp:groupList){
+			for (int j=0;j<grp.getGroupSize();j++){
+				// get the student name
+				Student student= grp.getStudent(j);
+				// get the grade object of this course 
+				Grade grade=studentManager.getGrade(student,courseID);
+				GradeManager.printGrade(grade);
+			}
+		}
+	
+	}
+
+	// 5. print student list
+	void printStudentList(String courseID, GroupType groupType){
+		Course course = getCourse(courseID);
+		Group[] groupList=null;
+		switch(groupType){
+			case Lecture: groupList=course.getLecGroupList();
+						  break;
+			case Tutorial: groupList=course.getTutGroupList();
+						  break;
+			case Lab: groupList=course.getLabGroupList(); 
+			          break;
+		}
+		
+		//for each group 
+		System.out.println("Student list----------------------------");
+		for (Group grp:groupList){
+			System.out.println(groupType + " group "+grp.getGroupID()+":");
+			for (int j=0;j<grp.getGroupSize();j++){
+				// get the student name
+				Student student= grp.getStudent(j);
+				studentManager.printStudentInfo(student);
+			}
+		}
+	
+	}
+
+	// for 4. check vacancy
+	//check if a course contains a group type
+	public Boolean haveGroupType(String courseID, GroupType groupType)
+	{
+		for(Course course : courseList)
+		{
+			if(courseID.equals(course.getCourseID())){
+				switch (groupType){
+					case Lecture: return(course.getLecGroupNum()>0); 
+					
+					case Tutorial: return(course.getTutGroupNum()>0); 
+					
+					case Lab: return(course.getLabGroupNum()>0); 	
+					
+					default: return false;
+				}
+			}
+		}
+		return false;
+	}
+	// for 4. check vacancy
+	//check if a course contains a group ID
+	public Boolean haveGroup(String courseID, GroupType groupType, String groupID)
+	{
+		//get the target groupList from the target course 
+		Group[] groupList=null;
+		for(Course course : courseList)
+		{
+			if(courseID.equals(course.getCourseID())){
+				switch (groupType){
+					case Lecture: groupList=course.getLecGroupList(); 
+					              break;
+					
+					case Tutorial: groupList=course.getTutGroupList(); 
+								   break;
+								   
+					case Lab: groupList=course.getLabGroupList(); 	
+					          break;
+				}
+				break;
+			}
+		}
+		//check if the given groupID exist in the groupList
+		for (Group group:groupList){
+			if (groupID.equals(group.getGroupID())) return true;
+		}
+		return false;
+	}
+	// for 4. check vacancy
+	//check if group vancancy
+	public int getGroupVacancy(String courseID, GroupType groupType, String groupID){
+		Group[] groupList=null;
+		//get the target groupList from the target course 
+		for(Course course : courseList)
+		{
+			if(courseID.equals(course.getCourseID())){
+				switch (groupType){
+					case Lecture: groupList=course.getLecGroupList(); 
+					              break;
+					
+					case Tutorial: groupList=course.getTutGroupList(); 
+					               break;
+					case Lab: groupList=course.getLabGroupList(); 	
+					          break;
+					default: return -1;
+				}
+				break;
+			}
+		}
+		//check if the given groupID exist in the groupList
+		for (Group group:groupList){
+			if (groupID.equals(group.getGroupID())) return group.getVacancy();
+		}
+		return -1;
+	}
+	public int  getGroupSize(String courseID, GroupType groupType, String groupID){
+		Group[] groupList=null;
+		//get the target groupList from the target course 
+		for(Course course : courseList)
+		{
+			if(courseID.equals(course.getCourseID())){
+				switch (groupType){
+					case Lecture: groupList=course.getLecGroupList(); 
+					              break;
+					
+					case Tutorial: groupList=course.getTutGroupList(); 
+					               break;
+					case Lab: groupList=course.getLabGroupList(); 	
+					          break;
+				}
+				break;
+			}
+		}
+		//check if the given groupID exist in the groupList
+		for (Group group:groupList){
+			if (groupID.equals(group.getGroupID())) return group.getGroupSize();
+		}
+		return -1;
 	}
 
 }

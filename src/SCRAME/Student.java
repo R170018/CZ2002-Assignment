@@ -6,8 +6,8 @@ public class Student extends PersonSuperClass
 {
     private String studentID;
     private ArrayList <Grade> grade = new ArrayList <Grade>();
-    private Boolean fullTime = true; // Full time/ Part-time
-    private int studentType = 0; // Exchange/ Graduate / Undergraduate
+    private String typeOfStudy=null;
+    private String studentType = null; //Graduate / Undergraduate
     private int studyYear = 0;
 
     public Student(String studentID, String studentName)
@@ -29,6 +29,7 @@ public class Student extends PersonSuperClass
         }
     }
 
+
     public int getNumOfGrade(){
         return grade.size();
     }
@@ -38,11 +39,8 @@ public class Student extends PersonSuperClass
         return studentID;
     }
 
-    public Boolean getFullTime() {
-        return fullTime;
-    }
 
-    public int getStudentType() {
+    public String getStudentType() {
         return studentType;
     }
 
@@ -50,9 +48,12 @@ public class Student extends PersonSuperClass
         return studyYear;
     }
 
-    public void setStudentType(int studentType)
+    public void setStudentType(boolean undergraduate)
     {
-        this.studentType = studentType;
+        if (undergraduate){
+            studentType="undergraduate";
+        }
+        else studentType="graduate"; 
     }
 
     public void setStudyYear(int studyYear)
@@ -60,9 +61,29 @@ public class Student extends PersonSuperClass
         this.studyYear = studyYear;
     }
 
-    public void setFullTime(boolean fullTime)
+    public void setTypeOfStudy(boolean fullTime)
     {
-        this.fullTime = fullTime;
+        if (fullTime){
+            typeOfStudy="full-time";
+        }
+        else typeOfStudy="part-time";
+    }
+
+    public String getTypeOfStudy(){
+        return typeOfStudy;
+    }
+    //!!!
+    public Grade getGrade(String courseID)
+    {
+        Course tempCourse;
+        for(int i = 0; i < grade.size(); i++){
+            tempCourse = grade.get(i).getCourse();
+            if(tempCourse.getCourseID().equals(courseID))
+            {
+                return grade.get(i);
+            }
+        }
+        return null;   
     }
 
 }

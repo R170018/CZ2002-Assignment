@@ -42,6 +42,14 @@ public class Group
 		return groupID;
 	}
 
+	public int getGroupSize(){
+		return size;
+	}
+
+	public Student getStudent(int studentIndex){
+		return studentList[studentIndex];
+	}
+
 
 	//public void printList()
 	// {

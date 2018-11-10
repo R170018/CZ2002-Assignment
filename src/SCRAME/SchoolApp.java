@@ -25,7 +25,7 @@ public class SchoolApp
 			System.out.println("(4)Enter course assessment components;");
 			System.out.println("(5)Print course list;");
 			System.out.println("(6)Print course structure;");
-			System.out.println("(7)Print student list;");
+			System.out.println("(7)Print student list for a course;");
 			System.out.println("(8)Print professor list;");
 			System.out.println("(9)Register student for a course;");
 			//change
@@ -33,8 +33,13 @@ public class SchoolApp
 
 			System.out.println("(11)Enter mark for a student;");
 			System.out.println("(12)Print grade of a student;");
-			System.out.println("(13)Exit;");
+
+			System.out.println("(13)Print course statistics;");
+
+			System.out.println("(14)Check available slot in a class (vacancy in a class);");
+			System.out.println("(15)Exit;");
 			System.out.println("Please enter your choice:");
+			
 			choice = InputHandler.getInt();
 
 			switch(choice)
@@ -195,7 +200,22 @@ public class SchoolApp
 					break;
 
 				case 7:
-					studentManager.printStudentList();
+					try{
+                        System.out.println("Enter course ID: ");
+                        String courseID=InputHandler.getLine();
+
+                        if (!courseManager.haveCourse(courseID)){
+                            throw new Exception("Error: Course does not exist!");
+                        }
+
+                        System.out.println("Print student list according to a group type: Lecture / Tutorial / Lab : ");
+						GroupType groupType=GroupType.valueOf(InputHandler.getLine()); 
+						courseManager.printStudentList(courseID,groupType);
+
+                    }
+                    catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
 					break;
 
 				case 8:
@@ -304,11 +324,66 @@ public class SchoolApp
 					}
 					break;
 
+				// 9. print course stats
+				case 13:
+                    try{
+                        System.out.println("Enter course ID: ");
+                        String courseID=InputHandler.getLine();
+
+                        if (!courseManager.haveCourse(courseID)){
+                            throw new Exception("Error: Course does not exist!");
+                        }
+
+                        System.out.println("Print course statistics according to a group type: Lecture / Tutorial / Lab : ");
+						GroupType groupType=GroupType.valueOf(InputHandler.getLine()); 
+						courseManager.printGrade(courseID,groupType);
+
+                    }
+                    catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+					break;
+				// 4
+				case 14:
+                    try{
+                        System.out.println("Enter course ID: ");
+                        String courseID=InputHandler.getLine();
+                        //check if the course exists
+                        if (!courseManager.haveCourse(courseID)){
+                            throw new Exception("Error: Course does not exist!");
+                        }
+
+                        System.out.println("Enter class type: Lecture / Tutorial / Lab ");
+						//enum groupType
+						
+                        GroupType groupType=GroupType.valueOf(InputHandler.getLine()); 
+                        // check if the course has the group type
+                        if (!courseManager.haveGroupType(courseID, groupType)){
+                            throw new Exception("Error: The course does not have any " + groupType + " class!" );
+                        }
+
+
+                        System.out.println("Enter the group ID: ");
+                        String groupID=InputHandler.getLine();
+                        //check if the course has the group ID for that group type
+                        if(!courseManager.haveGroup(courseID, groupType, groupID)){
+                            throw new Exception("Error: The course does not have the "+ groupType + " group "+ groupID);
+                        }
+
+                        // check vacancy
+                        System.out.println("Group vacancy for " + groupType + " group "+ groupID+ " :" + courseManager.getGroupVacancy(courseID, groupType, groupID)+ "/" +courseManager.getGroupSize(courseID, groupType, groupID));
+                        
+                    }
+                    catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                    break;					
+
 				default:
 					System.out.println("Please enter a valid choice.");
 			}
 
-		}while(choice != 13);
+		}while(choice != 15);
 		
 	}
 

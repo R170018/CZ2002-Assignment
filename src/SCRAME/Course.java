@@ -157,6 +157,31 @@ public class Course
 		}
 	}
 
+	public int getLecGroupNum()
+	{
+		return lecGroupNum;
+	}
+	public int getTutGroupNum()
+	{
+		return tutGroupNum;
+	}
+	
+	public int getLabGroupNum()
+	{
+		return labGroupNum;
+	}
+
+	public Group[] getLecGroupList(){
+		return lecGroupList;
+	}
+	public Group[] getTutGroupList(){
+		return tutGroupList;
+	}
+	public Group[] getLabGroupList(){
+		return labGroupList;
+	}
+
+
 
 	//change
 	// public String[] addStudent(Student student)

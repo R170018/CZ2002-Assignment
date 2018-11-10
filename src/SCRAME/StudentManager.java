@@ -65,16 +65,18 @@ public class StudentManager
         System.out.println("Enter email: ");
         student.setEmail(InputHandler.getLine());
 
-        System.out.println("Is student studying fullTime? (Y/N)");
-        student.setFullTime('Y' == InputHandler.getLine().charAt(0));
+        System.out.println("Is student studying full-time or part-time? (F/P)");
+        student.setTypeOfStudy('F' == InputHandler.getLine().charAt(0));
 
-        System.out.println("Is student (1) Exchange/ (2) Graduate / (3) Undergraduate?");
-        student.setStudentType(InputHandler.getInt());
+        System.out.println("Is student a graduate or an undergraduate? (G/U)");
+        student.setStudentType('U' == InputHandler.getLine().charAt(0));
 
         System.out.println("Student Year for Student? (e.g. 2018)");
         student.setStudyYear(InputHandler.getInt());
     }
 
+
+    // print a list of all students
     public void printStudentList() 
     {
         System.out.println("Student list----------------------------");
@@ -83,6 +85,14 @@ public class StudentManager
             System.out.println("StudentID: " +  student.getStudentID() + "   " + "Name: " + student.getName());
         }
     }
+    // print 1 student info
+    public void printStudentInfo(Student student) 
+    {
+        {
+            System.out.println("StudentID: " +  student.getStudentID() + "   " + "Name: " + student.getName()+" Type of study: "+student.getTypeOfStudy()+ "Type of Student:" +student.getStudentType()+ "Year of Study: "+student.getStudyYear());
+        }
+    }
+
 
     public void setMark(String studentID, String courseID) 
     {
@@ -129,5 +139,17 @@ public class StudentManager
             }
         } 
     }
+    public Grade getGrade(Student student,String courseID){
+        try{
+            if (student.getGrade(courseID)==null){
+                throw new Exception("Error: Course is not taken by the student " + student.getStudentID() + ".");
+            }
+            return student.getGrade(courseID);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        };
+        return null;
+	}
 
 }
