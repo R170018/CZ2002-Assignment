@@ -32,18 +32,6 @@ public class Group
 		return false;
 	}
 
-	public void printList()
-	{
-		System.out.println("Info about" + groupType + groupID);
-		System.out.println("=========================================");
-		System.out.printf("Studetent ID\t\tStudent Name\n");
-		for(int i = 0; i < size - vacancy; i++)
-		{
-			System.out.printf("%s\t\t%s\n", studentList[i].getStudentID(), studentList[i].getName());
-		}
-		System.out.println("=========================================");
-	}
-
 	public int getVacancy()
 	{
 		return vacancy;
@@ -53,5 +41,18 @@ public class Group
 	{
 		return groupID;
 	}
+
+
+	//public void printList()
+	// {
+	// 	System.out.println("Info about" + groupType + groupID);
+	// 	System.out.println("=========================================");
+	// 	System.out.printf("Studetent ID\t\tStudent Name\n");
+	// 	for(int i = 0; i < size - vacancy; i++)
+	// 	{
+	// 		System.out.printf("%s\t\t%s\n", studentList[i].getStudentID(), studentList[i].getName());
+	// 	}
+	// 	System.out.println("=========================================");
+	// }
 
 }

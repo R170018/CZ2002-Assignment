@@ -24,8 +24,4 @@ public class Professor extends PersonSuperClass
 		this.rank = rank;
 	}
 
-	public void printProf()
-	{
-		System.out.println("Professor ID: " +  this.profID + "   " + "Name: " + this.getName());
-	}
 }

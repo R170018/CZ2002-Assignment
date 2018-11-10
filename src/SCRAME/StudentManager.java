@@ -80,7 +80,7 @@ public class StudentManager
         System.out.println("Student list----------------------------");
         for (Student student : studentList) 
         {
-            student.printStudent();
+            System.out.println("StudentID: " +  student.getStudentID() + "   " + "Name: " + student.getName());
         }
     }
 
@@ -88,8 +88,26 @@ public class StudentManager
     {
         Student student = getStudent(studentID);
         if(student != null)
-        {
-            student.createMarks(courseID);
+        {   
+            Grade tempGrade = null;
+            Course tempCourse;
+            for(int i = 0; i < student.getNumOfGrade(); i++)
+            {
+                tempCourse = student.getGrade(i).getCourse();
+
+                if(tempCourse.getCourseID().equals(courseID))
+                {
+                    tempGrade = student.getGrade(i);
+                }
+            }
+            if(tempGrade != null)
+            {
+                GradeManager.createAssessmentMarks(tempGrade);
+            }
+            else
+            {
+                System.out.println("Student " + studentID + " is not taking course " + courseID + ".");
+            }
         }
     }
 
@@ -97,13 +115,19 @@ public class StudentManager
     {
         Student student = getStudent(studentID);
         if (student != null) 
-        {
-            student.printGrade();
+        {   
+            if(student.getNumOfGrade() == 0)
+            {
+                System.out.println("Student has not taken any courses.");
+            }
+            else
+            {
+                for(int i=0; i<student.getNumOfGrade(); i++)
+                {
+                    GradeManager.printGrade(student.getGrade(i));
+                }
+            }
         } 
-        else 
-        {
-            System.out.println("Student doesn't exist!");
-        }
     }
 
 }

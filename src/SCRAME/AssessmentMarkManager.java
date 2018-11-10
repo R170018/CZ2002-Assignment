@@ -40,5 +40,27 @@ public class AssessmentMarkManager{
 		}
 	}
 
+	public static int calculateMark(AssessmentMark assessmentMark){
+		int sum = 0;
+		AssessmentMark subAssessmentMark;
+		Assessment assessment = assessmentMark.getAssessment();
+		//terminate condition
+		if(assessment.getNumOfSubAssessments() > 0){
+			for(int i=0; i<assessment.getNumOfSubAssessments(); i++){
+				//recursive call
+				subAssessmentMark = assessmentMark.getSubAssessmentMark(i);
+				sum += calculateMark(subAssessmentMark) * subAssessmentMark.getPercentage()/100.0;
+			}
+			assessmentMark.setMark(sum);
+			return assessmentMark.getMark();
+		}
+		else{
+			if(assessmentMark.getMark() == -1){
+				System.out.println("No mark has been entered yet!");
+			}
+			return assessmentMark.getMark();
+		}
+	}
+
 
 }

@@ -30,7 +30,14 @@ public class AssessmentManager{
 		do{
 			System.out.println("Number of assessment components '" + assessment.getName() + "' has:(no larger than " + assessment.MAX_SUBASSESSMENT + ")");
 			tempNumOfSubAssessments = InputHandler.getInt();
-		}while(!assessment.setNumOfSubAssessments(tempNumOfSubAssessments));
+			if(tempNumOfSubAssessments < 0 || tempNumOfSubAssessments > assessment.MAX_SUBASSESSMENT){
+				System.out.println("Expecting an non-negative integer no larger than " + assessment.MAX_SUBASSESSMENT + ".");
+			}
+			else{
+				break;
+			}
+		}while(true);
+		assessment.setNumOfSubAssessments(tempNumOfSubAssessments);
 		//terminate condition
 		if(tempNumOfSubAssessments > 0){
 			System.out.println("Assessment components of '" + assessment.getName() + "'-----------------------------------");

@@ -295,7 +295,13 @@ public class SchoolApp
 
 				case 12:
 					System.out.println("Enter student ID: ");
-					studentManager.printGrade(InputHandler.getLine());
+					tempStudentID = InputHandler.getLine();
+					if(studentManager.haveStudent(tempStudentID)){
+						studentManager.printGrade(tempStudentID);
+					}
+					else{
+						System.out.println("Student doesn't exist!");
+					}
 					break;
 
 				default:

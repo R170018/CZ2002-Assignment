@@ -75,7 +75,7 @@ public class ProfessorManager
 		System.out.println("Professor list------------------------------------------------");
 		for(Professor prof : profList)
 		{
-			prof.printProf();
+			System.out.println("Professor ID: " +  prof.getProfID() + "   " + "Name: " + prof.getName());
 		}
 	}
 }

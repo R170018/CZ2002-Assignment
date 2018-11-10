@@ -20,49 +20,17 @@ public class Student extends PersonSuperClass
         grade.add(new Grade(course));
     }
 
-    public void createMarks(String courseID) 
-    {
-        Grade tempGrade;
-        tempGrade = getGrade(courseID);
-        if(tempGrade != null)
-        {
-            tempGrade.createAssessmentMarks();
+    public Grade getGrade(int index){
+        if(index < 0 || index >= getNumOfGrade()){
+            return null;
+        }
+        else{
+            return grade.get(index);
         }
     }
 
-    public Grade getGrade(String courseID)
-    {
-        Course tempCourse;
-        for(int i = 0; i < grade.size(); i++)
-        {
-            tempCourse = grade.get(i).getCourse();
-            if(tempCourse.getCourseID().equals(courseID))
-            {
-                return grade.get(i);
-            }
-        }
-        System.out.println("Course is not taken by student " + this.studentID + ".");
-        return null;
-    }
-
-    public void printGrade() 
-    {
-        if(grade.size() == 0)
-        {
-            System.out.println("Student has not taken any courses.");
-        }
-        else
-        {
-            for(int i=0; i<grade.size(); i++)
-            {
-                GradeManager.printGrade(grade.get(i));
-            }
-        }
-    }
-
-    public void printStudent() 
-    {
-        System.out.println("StudentID: " +  this.studentID + "   " + "Name: " + this.getName());
+    public int getNumOfGrade(){
+        return grade.size();
     }
 
     public String getStudentID()
