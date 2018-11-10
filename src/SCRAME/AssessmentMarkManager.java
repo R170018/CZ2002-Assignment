@@ -47,7 +47,7 @@ public class AssessmentMarkManager{
 	}
 
 	public static int calculateMark(AssessmentMark assessmentMark){
-		int sum = 0;
+		float sum = 0;
 		AssessmentMark subAssessmentMark;
 		Assessment assessment = assessmentMark.getAssessment();
 		//terminate condition
@@ -55,9 +55,9 @@ public class AssessmentMarkManager{
 			for(int i=0; i<assessment.getNumOfSubAssessments(); i++){
 				//recursive call
 				subAssessmentMark = assessmentMark.getSubAssessmentMark(i);
-				sum += calculateMark(subAssessmentMark) * subAssessmentMark.getPercentage()/100.0;
+				sum += calculateMark(subAssessmentMark) * (subAssessmentMark.getPercentage()/100.0);
 			}
-			assessmentMark.setMark(sum);
+			assessmentMark.setMark(Math.round(sum));
 			return assessmentMark.getMark();
 		}
 		else{

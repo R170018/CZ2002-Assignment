@@ -100,18 +100,32 @@ public class CourseManager implements Serializable
 		if(course == null){
 			return;
 		}
+		//check if corresponding group exists
+		int type;
+		boolean hasGroup = false;
+		for(type=0; type<3; type++){
+			if(course.getGroupNum(type) > 0){
+				hasGroup = true;
+				break;
+			}
+		}
+		if(!hasGroup){
+			System.out.println("Unsuccessful! Course " + course.getCourseID() + " has no group.");
+			return;
+		}
 		//check if student's already taking the course
-		for(int i=0; i<course.getGroupNum(0); i++){
-			tempGroup = course.getGroup(0, i);
+		for(int i=0; i<course.getGroupNum(type); i++){
+			tempGroup = course.getGroup(type, i);
 			if(tempGroup.haveStudent(student)){
 				System.out.println("Unsuccessful! Student " + student.getStudentID() + " is already taking course " + course.getCourseID() + ".");
 				break;
 			}
 		}
+
 		//check vacancy and add student
-		for(int i=0; i<course.getGroupNum(0); i++){
-			tempGroup = course.getGroup(0, i);
-			if(tempGroup.getVacancy() != 0){
+		for(int i=0; i<course.getGroupNum(type); i++){
+			tempGroup = course.getGroup(type, i);
+			if(tempGroup.getVacancy() > 0){
 				tempGroup.addStudent(student);
 				System.out.println("Student " + student.getStudentID() + " is assigned to lecture group " + tempGroup.getGroupID() + ".");
 				hasVacancy = true;
@@ -122,21 +136,14 @@ public class CourseManager implements Serializable
 			System.out.println("Unsuccessful! Course " + course.getCourseID() + " has no vacancy.");
 		}
 		else{
-			for(int i=0; i<course.getGroupNum(1); i++){
-				tempGroup = course.getGroup(1, i);
-				if(tempGroup.getVacancy() != 0){
-					tempGroup.addStudent(student);
-					System.out.println("Student " + student.getStudentID() + " is assigned to lab group " + tempGroup.getGroupID() + ".");
-					break;
-				}
-			}
-
-			for(int i=0; i<course.getGroupNum(2); i++){
-				tempGroup = course.getGroup(2, i);
-				if(tempGroup.getVacancy() != 0){
-					tempGroup.addStudent(student);
-					System.out.println("Student " + student.getStudentID() + " is assigned to tutorial group " + tempGroup.getGroupID() + ".");
-					break;
+			for(int i=type+1; i<3; i++){
+				for(int j=0; j<course.getGroupNum(i); i++){
+					tempGroup = course.getGroup(i, j);
+					if(tempGroup.getVacancy() != 0){
+						tempGroup.addStudent(student);
+						System.out.println("Student " + student.getStudentID() + " is assigned to lab group " + tempGroup.getGroupID() + ".");
+						break;
+					}
 				}
 			}
 			
