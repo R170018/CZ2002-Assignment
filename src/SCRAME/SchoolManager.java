@@ -9,12 +9,6 @@ public class SchoolManager implements Serializable
 	public void start()
 	{
 		int choice;
-		// Student tempStudent;
-		// Professor tempProf;
-		// Course tempCourse;
-		// String tempStudentID, tempStudentName;
-		// String tempProfID, tempProfName;
-		// String tempCourseID, tempCourseName;
 		String tempStudentID;
 		String tempProfID;
 		String tempCourseID;
@@ -32,14 +26,10 @@ public class SchoolManager implements Serializable
 			System.out.println("(8)Print student list for a course;");
 			System.out.println("(9)Print professor list;");
 			System.out.println("(10)Register student for a course;");
-			//change
 			System.out.println("(11)Assign professor to a course;");
-
 			System.out.println("(12)Enter mark for a student;");
 			System.out.println("(13)Print grade of a student;");
-
 			System.out.println("(14)Print course statistics;");
-
 			System.out.println("(15)Check available slot in a class (vacancy in a class);");
 			System.out.println("(16)Exit;");
 			System.out.println("Please enter your choice:");
@@ -77,7 +67,7 @@ public class SchoolManager implements Serializable
 					break;
 
 				case 7:
-					studentManager.printStudentList();
+					studentManager.printList();
 					break;
 
 				case 8:
@@ -87,7 +77,7 @@ public class SchoolManager implements Serializable
 					break;
 
 				case 9:
-					professorManager.printProfList();
+					professorManager.printList();
 					break;
 
 				case 10:
@@ -139,19 +129,12 @@ public class SchoolManager implements Serializable
 
 		System.out.println("Enter student ID: ");
 	    tempStudentID = InputHandler.getLine();
-	    if(!studentManager.haveStudent(tempStudentID))
+	    if(!studentManager.havePerson(tempStudentID))
 	    {
 	    	System.out.println("Enter student name: ");
 	    	tempStudentName = InputHandler.getLine();
-	    	studentManager.addStudent(tempStudentID, tempStudentName);
-			//change
-			// System.out.println("Add detail information for this student?(1 : yes ; 0 : no): ");
-			// if(InputHandler.getInt() == 1)
-			// {
-			// 	studentManager.addStudentDetails(tempStudent);
-			// }
-			// System.out.println("Student successfully added!");
-			studentManager.printStudentList();
+	    	studentManager.addPerson(tempStudentID, tempStudentName);
+			studentManager.printList();
 	    }
 	    else
 	    {
@@ -164,18 +147,12 @@ public class SchoolManager implements Serializable
 
 		System.out.println("Enter professor ID: ");
         tempProfID = InputHandler.getLine();
-        if(!professorManager.haveProf(tempProfID))
+        if(!professorManager.havePerson(tempProfID))
         {
         	System.out.println("Enter professor name: ");
         	tempProfName = InputHandler.getLine();
-        	professorManager.addProf(tempProfID, tempProfName);
-			// System.out.println("Add detail information for this professor?(1 : yes ; 0 : no): ");
-			// if(InputHandler.getInt() == 1)
-			// {
-			// 	professorManager.addProfDetails(tempProf);
-			// }
-			// System.out.println("Professor successfully added!");
-			professorManager.printProfList();
+        	professorManager.addPerson(tempProfID, tempProfName);
+			professorManager.printList();
         }
         else
         {
@@ -194,38 +171,13 @@ public class SchoolManager implements Serializable
 		{
 			System.out.println("Input course Name: ");
 			tempCourseName = InputHandler.getLine();
-			//change
-			// tempCourse = courseManager.addCourse(tempCourseID, tempCourseName);
-			// courseManager.addCourseDetails(tempCourse);
 			courseManager.addCourse(tempCourseID, tempCourseName);
-			//enter prof
-			//change
-			// int control = 1;
-			// while(control != 0)
-			// {
-			// 	System.out.println("Enter the professor ID for the instructor: ");
-			// 	tempProfID = InputHandler.getLine();
-			// 	if(professorManager.haveProf(tempProfID))
-			// 	{
-			// 		tempProf = professorManager.getProf(tempProfID);
-			// 		if(courseManager.addProfInCourse(tempCourse, tempProf) == false)
-			// 		{
-			// 			System.out.println("Instructor exists!");
-			// 		}
-			// 	}
-			// 	else
-			// 	{
-			// 		System.out.println("Professor not exists!");
-			// 	}
-			// 	System.out.println("Enter another instructor?(1:yes ; 0:no): ");
-			// 	control = InputHandler.getInt();
-			// }
 			System.out.println("Assign professors to course " + tempCourseID + "---------------------------");
 			System.out.println("Enter professor ID:");
 			tempProfID = InputHandler.getLine();
 			do{	
 				boolean firstProfEntered = true;
-				if(!professorManager.haveProf(tempProfID)){
+				if(!professorManager.havePerson(tempProfID)){
 					firstProfEntered = false;
 					System.out.println("Professor " + tempProfID + " doesn't exist.");
 					int tempInt;
@@ -240,8 +192,8 @@ public class SchoolManager implements Serializable
 							case 1:
 								System.out.println("Enter professor name: ");
 					        	tempProfName = InputHandler.getLine();
-					        	professorManager.addProf(tempProfID, tempProfName);
-					        	professorManager.printProfList();
+					        	professorManager.addPerson(tempProfID, tempProfName);
+					        	professorManager.printList();
 					        	firstProfEntered = true;
 					        	break;
 					        case 2:
@@ -250,14 +202,14 @@ public class SchoolManager implements Serializable
 								//firstProfEntered = false;
 								break;
 							case 3:
-								professorManager.printProfList();
+								professorManager.printList();
 								tempInt = 0;
 								break;
 						}
 					}while(tempInt != 1 && tempInt != 2 && tempInt != 3);
 				}
 				if(firstProfEntered){
-					tempProf = professorManager.getProf(tempProfID);
+					tempProf = professorManager.getPerson(tempProfID);
 					courseManager.addProfToCourse(tempCourseID, tempProf);
 					System.out.println("Enter next professor ID: (enter -1 to stop)");
 					tempProfID = InputHandler.getLine();
@@ -298,7 +250,6 @@ public class SchoolManager implements Serializable
 	        System.out.println("Print student list according to a group type: Lecture / Tutorial / Lab : ");
 			GroupType groupType=GroupType.valueOf(InputHandler.getLine()); 
 			courseManager.printStudentList(courseID,groupType);
-
 	    }
 	    catch (Exception e){
 	        System.out.println(e.getMessage());
@@ -312,17 +263,16 @@ public class SchoolManager implements Serializable
 		//change
 		System.out.println("Enter student ID: ");
 		tempStudentID = InputHandler.getLine();
-		if(studentManager.haveStudent(tempStudentID) == false)
+		if(studentManager.havePerson(tempStudentID) == false)
 		{
 			System.out.println("Student does not exist!");
 			return;
 		}
 		else
 		{
-			tempStudent = studentManager.getStudent(tempStudentID);
+			tempStudent = studentManager.getPerson(tempStudentID);
 		}
 
-		//change
 		System.out.println("Enter course ID: ");
 		tempCourseID = InputHandler.getLine();
 		if(courseManager.haveCourse(tempCourseID) == false)
@@ -332,25 +282,6 @@ public class SchoolManager implements Serializable
 		}
 	
 		courseManager.addStudentToCourse(tempCourseID, tempStudent);
-		
-		// String groupArr[] = new String[3];
-		// groupArr = courseManager.addStudentToCourse(tempCourse, tempStudent);
-
-		// if(groupArr[0].equals("EXIST"))
-		// {
-		// 	System.out.println("This student already registered!");
-		// }
-		// else if(groupArr[0].equals("FULL"))
-		// {
-		// 	System.out.println("This course has no vacancy!");
-		// }
-		// else
-		// {
-		// 	System.out.println("Successfully registered!");
-		// 	System.out.println("Assigned to lecture Group: " + groupArr[0]);
-		// 	System.out.println("Assigned to laboratary Group: " + groupArr[1]);
-		// 	System.out.println("Assigned to tutorial Group: " + groupArr[2]);
-		// }
 	}
 
 	public void assignProfToCourse(){
@@ -366,22 +297,22 @@ public class SchoolManager implements Serializable
 		
 		System.out.println("Enter professor ID:");
 		tempProfID = InputHandler.getLine();
-		if(!professorManager.haveProf(tempProfID)){
+		if(!professorManager.havePerson(tempProfID)){
 			System.out.println("Professor does not exist!");
 			return;
 		}
 		else{
-			tempProf = professorManager.getProf(tempProfID);
+			tempProf = professorManager.getPerson(tempProfID);
 		}
 		
-		tempProf = professorManager.getProf(tempProfID);
+		tempProf = professorManager.getPerson(tempProfID);
 		courseManager.addProfToCourse(tempCourseID, tempProf);
 	}
 
 	public void enterStudentMark(String tempStudentID){
 		String tempCourseID;
 
-		if(!studentManager.haveStudent(tempStudentID)){
+		if(!studentManager.havePerson(tempStudentID)){
 			System.out.println("Student doesn't exist!");
 			return;
 		}
@@ -397,7 +328,7 @@ public class SchoolManager implements Serializable
 	}
 
 	public void printStudentGrade(String tempStudentID){
-		if(studentManager.haveStudent(tempStudentID)){
+		if(studentManager.havePerson(tempStudentID)){
 			studentManager.printGrade(tempStudentID);
 		}
 		else{
@@ -412,9 +343,7 @@ public class SchoolManager implements Serializable
                 throw new Exception("Error: Course does not exist!");
             }
 
-            System.out.println("Print course statistics according to a group type: Lecture / Tutorial / Lab : ");
-			GroupType groupType=GroupType.valueOf(InputHandler.getLine()); 
-			courseManager.printGrade(courseID,groupType);
+			courseManager.printStatistic(courseID);
 
         }
         catch (Exception e){
@@ -429,26 +358,7 @@ public class SchoolManager implements Serializable
                 throw new Exception("Error: Course does not exist!");
             }
 
-            System.out.println("Enter class type: Lecture / Tutorial / Lab ");
-			//enum groupType
-			
-            GroupType groupType=GroupType.valueOf(InputHandler.getLine()); 
-            // check if the course has the group type
-            if (!courseManager.haveGroupType(courseID, groupType)){
-                throw new Exception("Error: The course does not have any " + groupType + " class!" );
-            }
-
-
-            System.out.println("Enter the group ID: ");
-            String groupID=InputHandler.getLine();
-            //check if the course has the group ID for that group type
-            if(!courseManager.haveGroup(courseID, groupType, groupID)){
-                throw new Exception("Error: The course does not have the "+ groupType + " group "+ groupID);
-            }
-
-            // check vacancy
-            System.out.println("Group vacancy for " + groupType + " group "+ groupID+ " :" + courseManager.getGroupVacancy(courseID, groupType, groupID)+ "/" +courseManager.getGroupSize(courseID, groupType, groupID));
-            
+            courseManager.checkVacancy(courseID);     
         }
         catch (Exception e){
             System.out.println(e.getMessage());

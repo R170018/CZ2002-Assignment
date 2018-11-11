@@ -1,28 +1,18 @@
 
-public class Professor extends PersonSuperClass
-{
-	private String profID = null;
-	private String rank = null;
+public class Professor extends Person
+{	
+	private String rank;
 
 	public Professor(String profID, String profName)
 	{
-		super(profName);
-		this.profID = profID;
+		super(profID, profName);
 	}
 
-	public String getProfID()
-	{
-		return profID;
-	}
-
-	public String getRank()
-	{
-		return rank;
-	}
-
-	public void setRank(String rank)
-	{
+	public void setRank(String rank){
 		this.rank = rank;
 	}
 
+	public String getRank(){
+		return rank;
+	}
 }

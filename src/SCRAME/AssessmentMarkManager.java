@@ -41,8 +41,20 @@ public class AssessmentMarkManager{
 			}
 		}
 		else{
-			System.out.println("Enter mark for '" + assessmentMark.getAssessment().getName() + "':");
-			assessmentMark.setMark(InputHandler.getInt());
+			int mark;
+			do{
+				System.out.println("Enter mark for '" + assessmentMark.getAssessment().getName() + "':(an integer between 0 and 100)");
+				mark = InputHandler.getInt();
+				if(mark >= 0 && mark <= 100){
+					break;
+				}
+				else{
+					System.out.println("The mark should be between 0 and 100.");
+				}
+			}while(true);
+			
+
+			assessmentMark.setMark(mark);
 		}
 	}
 

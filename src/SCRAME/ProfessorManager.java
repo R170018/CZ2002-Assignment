@@ -1,46 +1,44 @@
 import java.util.*;
-import java.io.Serializable;
 
-public class ProfessorManager implements Serializable
+public class ProfessorManager extends PeopleManager
 {
-	private ArrayList<Professor> profList = new ArrayList<Professor>();
+	//private ArrayList<Professor> personList = new ArrayList<Professor>();
 
-	public boolean haveProf(String profID)
-	{
-		for (Professor professor : profList) 
-        {
-            if (profID.equals(professor.getProfID())) 
-            { 
-                return true;
-            }
-        }
-        return false;
-	}
+	// public boolean haveProf(String profID)
+	// {
+	// 	for (Professor professor : profList) 
+ //        {
+ //            if (profID.equals(professor.getProfID())) 
+ //            { 
+ //                return true;
+ //            }
+ //        }
+ //        return false;
+	// }
 
-	public Professor getProf(String profID)
-	{
-		for (Professor professor : profList) 
-        {
-            if (profID.equals(professor.getProfID())) 
-            { 
-                return professor;
-            }
+	// public Professor getProf(String profID)
+	// {
+	// 	for (Professor professor : profList) 
+ //        {
+ //            if (profID.equals(professor.getProfID())) 
+ //            { 
+ //                return professor;
+ //            }
+	// 	}
+	// 	return null;
+	// }
+
+	public Professor getPerson(String profID){
+		if(super.getPerson(profID) instanceof Professor){
+			return (Professor)super.getPerson(profID);
 		}
 		return null;
 	}
 
-	// change
-	// public Professor addProf(String profID, String profName)
-	// {
-	// 	Professor tempProf = new Professor(profID, profName);
-	//  	profList.add(tempProf);
-	//  	return tempProf;
-	// }
-
-	public void addProf(String profID, String profName)
+	public void addPerson(String profID, String profName)
 	{
-		Professor tempProf = new Professor(profID, profName);
-        profList.add(tempProf);
+		Professor prof = new Professor(profID, profName);
+        personList.add(prof);
         System.out.println("Add detail information for this professor?(1 : yes, 0 : no): ");
 		if(InputHandler.getInt() == 1)
 		{
@@ -51,7 +49,7 @@ public class ProfessorManager implements Serializable
 
 	public void addProfDetails(String profID/*change: Professor prof*/)
 	{
-		Professor prof = getProf(profID);
+		Professor prof = getPerson(profID);
 		System.out.println("Enter gender(male: M; female: F): ");
 		prof.setGender(InputHandler.getLine().charAt(0));
 
@@ -71,12 +69,9 @@ public class ProfessorManager implements Serializable
 		prof.setRank(InputHandler.getLine());
 	}
 
-	public void printProfList()
+	public void printList()
 	{
 		System.out.println("Professor list------------------------------------------------");
-		for(Professor prof : profList)
-		{
-			System.out.println("Professor ID: " +  prof.getProfID() + "   " + "Name: " + prof.getName());
-		}
+		super.printList();
 	}
 }

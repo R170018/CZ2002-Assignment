@@ -1,8 +1,9 @@
 //package SCRAME;
 import java.io.Serializable;
 
-public class PersonSuperClass implements Serializable
+public class Person implements Serializable
 {
+    private String ID = null;
     private String name = null;
     private char gender = 'N';
     private String nationality = null;
@@ -10,9 +11,18 @@ public class PersonSuperClass implements Serializable
     private String contactNum = null;
     private String email = null;
 
-    public PersonSuperClass(String name)
-    {
+    public Person(String ID, String name)
+    {   
+        this.ID = ID;
         this.name = name;
+    }
+
+    public String getID(){
+        return ID;
+    }
+
+    public void setID(String ID){
+        this.ID = ID;
     }
 
     public void setName(String name)

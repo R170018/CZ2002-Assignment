@@ -3,9 +3,8 @@
 import java.util.*;
 //import java.io.Serializable;
 
-public class Student extends PersonSuperClass
+public class Student extends Person
 {
-    private String studentID;
     private ArrayList <Grade> grade = new ArrayList <Grade>();
     private String typeOfStudy=null;
     private String studentType = null; //Graduate / Undergraduate
@@ -13,15 +12,14 @@ public class Student extends PersonSuperClass
 
     public Student(String studentID, String studentName)
     {
-        super(studentName);
-        this.studentID = studentID;
+        super(studentID, studentName);
     }
 
     public void createGrade(Course course){
         grade.add(new Grade(course));
     }
 
-    public Grade getGrade(int index){
+    public Grade getGradeByIndex(int index){
         if(index < 0 || index >= getNumOfGrade()){
             return null;
         }
@@ -33,11 +31,6 @@ public class Student extends PersonSuperClass
 
     public int getNumOfGrade(){
         return grade.size();
-    }
-
-    public String getStudentID()
-    {
-        return studentID;
     }
 
 
@@ -74,7 +67,7 @@ public class Student extends PersonSuperClass
         return typeOfStudy;
     }
     //!!!
-    public Grade getGrade(String courseID)
+    public Grade getGradeByCourse(String courseID)
     {
         Course tempCourse;
         for(int i = 0; i < grade.size(); i++){

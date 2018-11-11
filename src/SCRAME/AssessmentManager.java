@@ -48,8 +48,15 @@ public class AssessmentManager{
 				assessment.setSubAssessment(i, subAssessmentName);
 				//Get percentage
 				if(i != tempNumOfSubAssessments-1){
-					System.out.println("Weightage percentage of " + subAssessmentName + ":(Integer required. E.g., enter 10 to represent 10%)");
-					percentage = InputHandler.getInt();
+					while(true){
+						System.out.println("Weightage percentage of " + subAssessmentName + ":(Integer required. E.g., enter 10 to represent 10%)");
+						percentage = InputHandler.getInt();
+						if(percentage >= 0 && percentage <= remainingPercentage){
+							break;
+						}
+						System.out.println("Expecting an integer between 0 and " + remainingPercentage + ".");
+					}
+					
 					assessment.getSubAssessment(i).setPercentage(percentage);
 					remainingPercentage -= percentage;
 					System.out.println("Weightage percentage of " + subAssessmentName + " is " + percentage + "%.");

@@ -1,46 +1,46 @@
 import java.util.*;
-import java.io.Serializable;
+//import java.io.Serializable;
 
-public class StudentManager implements Serializable
-{
-    private ArrayList<Student> studentList = new ArrayList<Student>();
+public class StudentManager extends PeopleManager
+{   
+    //private ArrayList<Student> studentList = new ArrayList<Student>();
 
-    public Student getStudent(String studentID) 
-    {
-        for(Student student : studentList)
-        {
-            if(studentID.equals(student.getStudentID()))
-            {
-                return student;
-            }
+    // public Student getStudent(String studentID) 
+    // {
+    //     for(Student student : studentList)
+    //     {
+    //         if(studentID.equals(student.getStudentID()))
+    //         {
+    //             return student;
+    //         }
+    //     }
+    //     return null;
+    // }
+
+    // public boolean haveStudent(String studentID)
+    // {
+    //     for(Student student : studentList)
+    //     {
+    //         if(studentID.equals(student.getStudentID()))
+    //         {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    public Student getPerson(String studentID){
+        if(super.getPerson(studentID) instanceof Student){
+            return (Student) super.getPerson(studentID);
         }
         return null;
     }
 
-    public boolean haveStudent(String studentID)
+    public void addPerson(String studentID, String studentName)
     {
-        for(Student student : studentList)
-        {
-            if(studentID.equals(student.getStudentID()))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // change
-    // public Student addStudent(String studentID, String studentName)
-    // {
-    //     Student tempStudent = new Student(studentID, studentName);
-    //     studentList.add(tempStudent);
-    //     return tempStudent;
-    // }
-
-    public void addStudent(String studentID, String studentName)
-    {
-        Student tempStudent = new Student(studentID, studentName);
-        studentList.add(tempStudent);
+        Student student = new Student(studentID, studentName);
+        personList.add(student);
+    
         System.out.println("Add detail information for this student?(1 : yes, 0 : no): ");
         if(InputHandler.getInt() == 1){
             addStudentDetails(studentID);
@@ -50,7 +50,7 @@ public class StudentManager implements Serializable
 
     public void addStudentDetails(String studentID/*change: Student student*/)
     {   
-        Student student = getStudent(studentID);
+        Student student = getPerson(studentID);
         System.out.println("Enter gender(male: M; female: F): ");
         student.setGender(InputHandler.getLine().charAt(0));
 
@@ -77,38 +77,26 @@ public class StudentManager implements Serializable
     }
 
 
-    // print a list of all students
-    public void printStudentList() 
+    public void printList() 
     {
         System.out.println("Student list----------------------------");
-        for (Student student : studentList) 
-        {
-            System.out.println("StudentID: " +  student.getStudentID() + "   " + "Name: " + student.getName());
-        }
+        super.printList();
     }
-    // print 1 student info
-    public void printStudentInfo(Student student) 
-    {
-        {
-            System.out.println("StudentID: " +  student.getStudentID() + "   " + "Name: " + student.getName()+" Type of study: "+student.getTypeOfStudy()+ "Type of Student:" +student.getStudentType()+ "Year of Study: "+student.getStudyYear());
-        }
-    }
-
 
     public void setMark(String studentID, String courseID) 
     {
-        Student student = getStudent(studentID);
+        Student student = getPerson(studentID);
         if(student != null)
         {   
             Grade tempGrade = null;
             Course tempCourse;
             for(int i = 0; i < student.getNumOfGrade(); i++)
             {
-                tempCourse = student.getGrade(i).getCourse();
+                tempCourse = student.getGradeByIndex(i).getCourse();
 
                 if(tempCourse.getCourseID().equals(courseID))
                 {
-                    tempGrade = student.getGrade(i);
+                    tempGrade = student.getGradeByIndex(i);
                 }
             }
             if(tempGrade != null)
@@ -124,7 +112,7 @@ public class StudentManager implements Serializable
 
     public void printGrade(String studentID) 
     {
-        Student student = getStudent(studentID);
+        Student student = getPerson(studentID);
         if (student != null) 
         {   
             if(student.getNumOfGrade() == 0)
@@ -135,22 +123,17 @@ public class StudentManager implements Serializable
             {
                 for(int i=0; i<student.getNumOfGrade(); i++)
                 {
-                    GradeManager.printGrade(student.getGrade(i));
+                    GradeManager.printGrade(student.getGradeByIndex(i));
                 }
             }
         } 
     }
-    public Grade getGrade(Student student,String courseID){
-        try{
-            if (student.getGrade(courseID)==null){
-                throw new Exception("Error: Course is not taken by the student " + student.getStudentID() + ".");
-            }
-            return student.getGrade(courseID);
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        };
-        return null;
-	}
+
+     // print 1 student info
+    public static void printStudentInfo(Student student) 
+    {   
+        if(student == null){return;}
+        System.out.println("StudentID: " +  student.getID() + "   " + "Name: " + student.getName()+" Type of study: "+student.getTypeOfStudy()+ "Type of Student:" +student.getStudentType()+ "Year of Study: "+student.getStudyYear());
+    }
 
 }

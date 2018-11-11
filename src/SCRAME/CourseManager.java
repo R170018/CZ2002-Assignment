@@ -4,15 +4,6 @@ import java.io.Serializable;
 public class CourseManager implements Serializable
 {
 	private ArrayList<Course> courseList = new ArrayList<Course>();
-	StudentManager studentManager = new StudentManager();
-
-	//change
-	// public Course addCourse(String courseID, String courseName)
-	// {
-	// 	Course tempCourse = new Course(courseID, courseName);
-	// 	courseList.add(tempCourse); 
-	// 	return tempCourse;
-	// }
 
 	public void addCourse(String courseID, String courseName)
 	{
@@ -22,7 +13,7 @@ public class CourseManager implements Serializable
 		System.out.println("Course " + courseID + " successfully added!");
 	}
 
-	public void addCourseDetails(String courseID/*change: Course course*/)
+	public void addCourseDetails(String courseID)
 	{
 		Course course = getCourse(courseID);
 		if(course == null){
@@ -32,31 +23,25 @@ public class CourseManager implements Serializable
 		course.setCourseCapacity(InputHandler.getInt());
 
 		System.out.println("Enter number of lecture groups: ");
-		course.createGroupList(InputHandler.getInt(), 0);
-		setGroup(courseID, 0);
-		//course.setLecGroupSize();
-		// course.setLecGroupList();
+		course.createGroupList(InputHandler.getInt(), GroupType.LECTURE);
+		setGroup(courseID, GroupType.LECTURE);
 
 		System.out.println("Enter number of laborotary groups: ");
-		course.createGroupList(InputHandler.getInt(), 1);
-		setGroup(courseID, 1);
-		//course.setLabGroupSize();
-		// course.setLabGroupList();
+		course.createGroupList(InputHandler.getInt(), GroupType.LAB);
+		setGroup(courseID, GroupType.LAB);
 
 		System.out.println("Enter number of tutorial groups: ");
-		course.createGroupList(InputHandler.getInt(), 2);
-		setGroup(courseID, 2);
-		//course.setTutGroupSize();
-		// course.setTutGroupList();
+		course.createGroupList(InputHandler.getInt(), GroupType.TUTORIAL);
+		setGroup(courseID, GroupType.TUTORIAL);
 	}
 
-	public void setGroup(String courseID, int type){
+	public void setGroup(String courseID, GroupType type){
 		Course course = getCourse(courseID);
 		if(course == null){
 			return;
 		}
 		int groupNum = course.getGroupNum(type);
-		String groupType = course.getGroupType(type);
+		String groupType = type.toString();
 		int courseCapacity = course.getCourseCapacity();
 		if(course != null){
 			if(groupNum == 0){
@@ -80,14 +65,19 @@ public class CourseManager implements Serializable
 	public void addProfToCourse(String courseID, Professor prof){	
 		Course tempCourse = getCourse(courseID);
 		if(tempCourse != null){
-			for(int i=0; i<tempCourse.getProfNum(); i++){
-				if(tempCourse.getProf(i).getProfID().equals(prof.getProfID())){	
-					System.out.println("Unsuccessful! Professor " + prof.getProfID() + " is already teaching course " + tempCourse.getCourseID() + "!" );
-					return;
+			try{
+				for(int i=0; i<tempCourse.getProfNum(); i++){
+					if(tempCourse.getProf(i).getID().equals(prof.getID())){
+						throw new Exception("Unsuccessful! Professor " + prof.getID() + " is already teaching course " + tempCourse.getCourseID() + "!");
+					}
 				}
+				tempCourse.addProf(prof);
+				System.out.println("Professor " + prof.getID() + " has been successfully assigned to course " + tempCourse.getCourseID() + ".");
 			}
-			tempCourse.addProf(prof);
-			System.out.println("Professor " + prof.getProfID() + " has been successfully assigned to course " + tempCourse.getCourseID() + ".");
+			catch (Exception e){
+				System.out.println(e.getMessage());
+			}
+			
 		}
 	}
 
@@ -101,47 +91,48 @@ public class CourseManager implements Serializable
 			return;
 		}
 		//check if corresponding group exists
-		int type;
+		int typeIndex;
+		GroupType type = null;
 		boolean hasGroup = false;
-		for(type=0; type<3; type++){
+		for(typeIndex=0; typeIndex<3; typeIndex++){
+
+			type = GroupType.values()[typeIndex];
 			if(course.getGroupNum(type) > 0){
 				hasGroup = true;
 				break;
 			}
 		}
-		if(!hasGroup){
-			System.out.println("Unsuccessful! Course " + course.getCourseID() + " has no group.");
-			return;
-		}
-		//check if student's already taking the course
-		for(int i=0; i<course.getGroupNum(type); i++){
-			tempGroup = course.getGroup(type, i);
-			if(tempGroup.haveStudent(student)){
-				System.out.println("Unsuccessful! Student " + student.getStudentID() + " is already taking course " + course.getCourseID() + ".");
-				break;
+		try{
+			if(!hasGroup){
+				throw new Exception("Unsuccessful! Course " + course.getCourseID() + " has no group.");
 			}
-		}
-
-		//check vacancy and add student
-		for(int i=0; i<course.getGroupNum(type); i++){
-			tempGroup = course.getGroup(type, i);
-			if(tempGroup.getVacancy() > 0){
-				tempGroup.addStudent(student);
-				System.out.println("Student " + student.getStudentID() + " is assigned to lecture group " + tempGroup.getGroupID() + ".");
-				hasVacancy = true;
-				break;
+			//check if student's already taking the course
+			for(int i=0; i<course.getGroupNum(type); i++){
+				tempGroup = course.getGroupByIndex(type, i);
+				if(tempGroup.haveStudent(student)){
+					throw new Exception("Unsuccessful! Student " + student.getID() + " is already taking course " + course.getCourseID() + ".");
+				}
 			}
-		}
-		if(!hasVacancy){
-			System.out.println("Unsuccessful! Course " + course.getCourseID() + " has no vacancy.");
-		}
-		else{
-			for(int i=type+1; i<3; i++){
-				for(int j=0; j<course.getGroupNum(i); i++){
-					tempGroup = course.getGroup(i, j);
+			//check vacancy and add student
+			for(int i=0; i<course.getGroupNum(type); i++){
+				tempGroup = course.getGroupByIndex(type, i);
+				if(tempGroup.getVacancy() > 0){
+					tempGroup.addStudent(student);
+					System.out.println("Student " + student.getID() + " is assigned to lecture group " + tempGroup.getGroupID() + ".");
+					hasVacancy = true;
+					break;
+				}
+			}
+			if(!hasVacancy){
+				throw new Exception("Unsuccessful! Course " + course.getCourseID() + " has no vacancy.");
+			}
+			for(int i=typeIndex+1; i<3; i++){
+				type = GroupType.values()[i];
+				for(int j=0; j<course.getGroupNum(type); j++){
+					tempGroup = course.getGroupByIndex(type, j);
 					if(tempGroup.getVacancy() != 0){
 						tempGroup.addStudent(student);
-						System.out.println("Student " + student.getStudentID() + " is assigned to lab group " + tempGroup.getGroupID() + ".");
+						System.out.println("Student " + student.getID() + " is assigned to lab group " + tempGroup.getGroupID() + ".");
 						break;
 					}
 				}
@@ -150,8 +141,12 @@ public class CourseManager implements Serializable
 			//Pass course reference to student
 			student.createGrade(course);
 
-			System.out.println("Student " + student.getStudentID() + " has been successfully assigned to course " + course.getCourseID() + ".");
+			System.out.println("Student " + student.getID() + " has been successfully assigned to course " + course.getCourseID() + ".");
 		}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		}
+
 	}
 
 	public Boolean haveCourse(String courseID)
@@ -187,7 +182,7 @@ public class CourseManager implements Serializable
 			System.out.println("Course Name: " + course.getCourseName());
 			System.out.println("Professor in charge: ");
 			for(int i=0; i<course.getProfNum(); i++){
-				System.out.println("	ID:" + course.getProf(i).getProfID() + "	Name:" + course.getProf(i).getName());
+				System.out.println("	ID:" + course.getProf(i).getID() + "	Name:" + course.getProf(i).getName());
 			}
 			System.out.println("---------------------------------------------");
 		}
@@ -209,167 +204,222 @@ public class CourseManager implements Serializable
 		Course courseToPrint = getCourse(courseID);
 		if(courseToPrint != null){
 			System.out.println("Course structure---------------------------");
+			System.out.println("Course ID: " + courseID);
 			AssessmentManager.printAssessment(courseToPrint.getAssessment(), 0);
 		}
 	}
 
-	public void printGroup(String courseID){
-		Course tempCourse = getCourse(courseID);
-		if(tempCourse != null){
-			
-		}
-	}
-
-	//for 9. print course stats
-	void printGrade(String courseID, GroupType groupType){
+	public void checkVacancy(String courseID){
 		Course course = getCourse(courseID);
-		Group[] groupList=null;
-		switch(groupType){
-			case Lecture: groupList=course.getLecGroupList();
-						  break;
-			case Tutorial: groupList=course.getTutGroupList();
-						  break;
-			case Lab: groupList=course.getLabGroupList(); 
-			          break;
-		}
+		if(course == null){return;}
+		System.out.println("Enter class type: LECTURE / TUTORIAL / LAB ");
+		//enum groupType
 		
-		//for each group 
-		for (Group grp:groupList){
-			for (int j=0;j<grp.getGroupSize();j++){
-				// get the student name
-				Student student= grp.getStudent(j);
-				// get the grade object of this course 
-				Grade grade=studentManager.getGrade(student,courseID);
-				GradeManager.printGrade(grade);
-			}
-		}
-	
-	}
+        GroupType groupType = GroupType.valueOf(InputHandler.getLine()); 
+        // check if the course has the group type
+        try{
+        	if (!course.haveGroupType(groupType)){
+	            throw new Exception("Error: The course does not have any " + groupType + " class!" );
+	        }
 
-	// 5. print student list
-	void printStudentList(String courseID, GroupType groupType){
-		Course course = getCourse(courseID);
-		Group[] groupList=null;
-		switch(groupType){
-			case Lecture: groupList=course.getLecGroupList();
-						  break;
-			case Tutorial: groupList=course.getTutGroupList();
-						  break;
-			case Lab: groupList=course.getLabGroupList(); 
-			          break;
-		}
+	        System.out.println("Enter the group ID: ");
+	        String groupID = InputHandler.getLine();
+	        //check if the course has the group ID for that group type
+	        if(!course.haveGroup(groupType, groupID)){
+	            throw new Exception("Error: The course does not have the "+ groupType + " group "+ groupID);
+	        }
+
+        	// check vacancy
+        	System.out.println("Group vacancy for " + groupType + " group "+ groupID + " :" + course.getGroupVacancy(groupType, groupID) + "/" + course.getGroupSize(groupType, groupID));
 		
+        }catch (Exception e){
+			System.out.println(e.getMessage());
+		}
+    }
+
+	public void printStudentList(String courseID, GroupType groupType){
+		Course course = getCourse(courseID);
+		Group grp;
+		
+		if(course == null){return;}
 		//for each group 
 		System.out.println("Student list----------------------------");
-		for (Group grp:groupList){
-			System.out.println(groupType + " group "+grp.getGroupID()+":");
-			for (int j=0;j<grp.getGroupSize();j++){
+
+		for (int i=0; i<course.getGroupNum(groupType); i++){
+			grp = course.getGroupByIndex(groupType, i);
+			System.out.println(groupType + " group " + grp.getGroupID() + ":");
+			for (int j=0; j<grp.getGroupSize(); j++){
 				// get the student name
-				Student student= grp.getStudent(j);
-				studentManager.printStudentInfo(student);
+				StudentManager.printStudentInfo(grp.getStudent(j));
 			}
 		}
-	
 	}
 
-	// for 4. check vacancy
-	//check if a course contains a group type
-	public Boolean haveGroupType(String courseID, GroupType groupType)
-	{
-		for(Course course : courseList)
-		{
-			if(courseID.equals(course.getCourseID())){
-				switch (groupType){
-					case Lecture: return(course.getLecGroupNum()>0); 
-					
-					case Tutorial: return(course.getTutGroupNum()>0); 
-					
-					case Lab: return(course.getLabGroupNum()>0); 	
-					
-					default: return false;
-				}
-			}
+	void printStatistic(String courseID){
+		Course course = getCourse(courseID);
+		int[] studentNumber = new int[10];
+		for(int i=0; i<10; i++){
+			studentNumber[i] = 0;
 		}
-		return false;
-	}
-	// for 4. check vacancy
-	//check if a course contains a group ID
-	public Boolean haveGroup(String courseID, GroupType groupType, String groupID)
-	{
-		//get the target groupList from the target course 
-		Group[] groupList=null;
-		for(Course course : courseList)
-		{
-			if(courseID.equals(course.getCourseID())){
-				switch (groupType){
-					case Lecture: groupList=course.getLecGroupList(); 
-					              break;
-					
-					case Tutorial: groupList=course.getTutGroupList(); 
-								   break;
-								   
-					case Lab: groupList=course.getLabGroupList(); 	
-					          break;
-				}
+		if(course == null){return;}
+		int typeIndex;
+		GroupType type = null;
+		boolean hasGroup = false;
+		for(typeIndex=0; typeIndex<3; typeIndex++){
+			type = GroupType.values()[typeIndex];
+			if(course.getGroupNum(type) > 0){
+				hasGroup = true;
 				break;
 			}
 		}
-		//check if the given groupID exist in the groupList
-		for (Group group:groupList){
-			if (groupID.equals(group.getGroupID())) return true;
+		if(!hasGroup){
+			System.out.println("Course " + course.getCourseID() + " has no group.");
+			return;
 		}
-		return false;
-	}
-	// for 4. check vacancy
-	//check if group vancancy
-	public int getGroupVacancy(String courseID, GroupType groupType, String groupID){
-		Group[] groupList=null;
-		//get the target groupList from the target course 
-		for(Course course : courseList)
-		{
-			if(courseID.equals(course.getCourseID())){
-				switch (groupType){
-					case Lecture: groupList=course.getLecGroupList(); 
-					              break;
-					
-					case Tutorial: groupList=course.getTutGroupList(); 
-					               break;
-					case Lab: groupList=course.getLabGroupList(); 	
-					          break;
-					default: return -1;
+		
+		System.out.println("Statistic of course " + course.getCourseID() + "------------------------------------------");
+		
+		//grade percentage
+		for(int i=0; i<course.getGroupNum(type); i++){
+			Group group = course.getGroupByIndex(type, i);
+			for (int j=0; j<(group.getGroupSize() - group.getVacancy()); j++){
+				// get the student name
+				Student student = group.getStudent(j);
+				Grade grade = student.getGradeByCourse(courseID);
+				if(grade == null){
+					break;
 				}
-				break;
+				String strGrade = grade.getGrade();
+				//grade
+				int index;
+				switch(strGrade){
+					case "A+":
+						index = 0;
+						break;
+					case "A":
+						index = 1;
+						break;
+					case "A-":
+						index = 2;
+						break;
+					case "B+":
+						index = 3;
+						break;
+					case "B":
+						index = 4;
+						break;
+					case "B-":
+						index = 5;
+						break;
+					case "C+":
+						index = 6;
+						break;
+					case "C":
+						index = 7;
+						break;
+					case "C-":
+						index = 8;
+						break;
+					case "F":
+						index = 9;
+						break;
+					default:
+						index = -1;
+				}
+				if(index != -1){
+					studentNumber[index]++;
+				}
 			}
 		}
-		//check if the given groupID exist in the groupList
-		for (Group group:groupList){
-			if (groupID.equals(group.getGroupID())) return group.getVacancy();
+		System.out.println("Grade: ");
+		int sum = 0;
+		for(int i=0; i<10; i++){
+			sum += studentNumber[i];
 		}
-		return -1;
-	}
-	public int  getGroupSize(String courseID, GroupType groupType, String groupID){
-		Group[] groupList=null;
-		//get the target groupList from the target course 
-		for(Course course : courseList)
-		{
-			if(courseID.equals(course.getCourseID())){
-				switch (groupType){
-					case Lecture: groupList=course.getLecGroupList(); 
-					              break;
-					
-					case Tutorial: groupList=course.getTutGroupList(); 
-					               break;
-					case Lab: groupList=course.getLabGroupList(); 	
-					          break;
-				}
-				break;
-			}
-		}
-		//check if the given groupID exist in the groupList
-		for (Group group:groupList){
-			if (groupID.equals(group.getGroupID())) return group.getGroupSize();
-		}
-		return -1;
-	}
+		sum = (sum == 0) ? 1 : sum;
+		System.out.println("	A+: " + 100.0*studentNumber[0]/sum + "%");
+		System.out.println("	A:  " + 100.0*studentNumber[1]/sum + "%");
+		System.out.println("	A-: " + 100.0*studentNumber[2]/sum + "%");
+		System.out.println("	B+: " + 100.0*studentNumber[3]/sum + "%");
+		System.out.println("	B:  " + 100.0*studentNumber[4]/sum + "%");
+		System.out.println("	B-: " + 100.0*studentNumber[5]/sum + "%");
+		System.out.println("	C+: " + 100.0*studentNumber[6]/sum + "%");
+		System.out.println("	C:  " + 100.0*studentNumber[7]/sum + "%");
+		System.out.println("	C-: " + 100.0*studentNumber[8]/sum + "%");
+		System.out.println("	F:  " + 100.0*studentNumber[9]/sum + "%");
 
+		//Second level assessment mark percentage
+		for(int k=0; k<course.getAssessment().getNumOfSubAssessments(); k++){
+			for(int i=0; i<10; i++){
+				studentNumber[i] = 0;
+			}
+			Assessment subAssessment = course.getAssessment().getSubAssessment(k);
+			for(int i=0; i<course.getGroupNum(type); i++){
+				Group group = course.getGroupByIndex(type, i);
+				for (int j=0; j<(group.getGroupSize() - group.getVacancy()); j++){
+					// get the student name
+					Student student = group.getStudent(j);
+					Grade grade = student.getGradeByCourse(courseID);
+					if(grade == null){
+						break;
+					}
+					AssessmentMark assessmentMark = grade.getAssessmentMark();
+					AssessmentMark subAssessmentMark = assessmentMark.getSubAssessmentMark(k);
+					int mark = subAssessmentMark.getMark();
+					//grade
+					int index;
+					switch(mark/5){
+						case 20:
+						case 19:
+							index = 0;
+							break;
+						case 18:
+							index = 1;
+							break;
+						case 17:
+							index = 2;
+							break;
+						case 16:
+							index = 3;
+							break;
+						case 15:
+							index = 4;
+							break;
+						case 14:
+							index = 5;
+							break;
+						case 13:
+							index = 6;
+							break;
+						case 12:
+							index = 7;
+							break;
+						case 11:
+							index = 8;
+							break;
+						default:
+							index = 9;
+							break;
+					}
+					studentNumber[index]++;
+				}
+			}
+			System.out.println(subAssessment.getName() + ": ");
+			sum = 0;
+			for(int i=0; i<10; i++){
+				sum += studentNumber[i];
+			}
+			System.out.println("	95: " + 100.0*studentNumber[0]/sum + "%");
+			System.out.println("	90: " + 100.0*studentNumber[1]/sum + "%");
+			System.out.println("	85: " + 100.0*studentNumber[2]/sum + "%");
+			System.out.println("	80: " + 100.0*studentNumber[3]/sum + "%");
+			System.out.println("	75: " + 100.0*studentNumber[4]/sum + "%");
+			System.out.println("	70: " + 100.0*studentNumber[5]/sum + "%");
+			System.out.println("	65: " + 100.0*studentNumber[6]/sum + "%");
+			System.out.println("	60: " + 100.0*studentNumber[7]/sum + "%");
+			System.out.println("	55: " + 100.0*studentNumber[8]/sum + "%");
+			System.out.println("	 0: " + 100.0*studentNumber[9]/sum + "%");
+		
+		}
+	}
 }

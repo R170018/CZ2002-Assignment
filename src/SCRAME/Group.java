@@ -28,7 +28,7 @@ public class Group implements Serializable
 		for(int i = 0; i < (size - vacancy); i++)
 		{
 			System.out.println(size - vacancy);
-			if(studentList[i].getStudentID().equals(student.getStudentID()))
+			if(studentList[i].getID().equals(student.getID()))
 				return true;
 		}
 		return false;
@@ -51,18 +51,5 @@ public class Group implements Serializable
 	public Student getStudent(int studentIndex){
 		return studentList[studentIndex];
 	}
-
-
-	//public void printList()
-	// {
-	// 	System.out.println("Info about" + groupType + groupID);
-	// 	System.out.println("=========================================");
-	// 	System.out.printf("Studetent ID\t\tStudent Name\n");
-	// 	for(int i = 0; i < size - vacancy; i++)
-	// 	{
-	// 		System.out.printf("%s\t\t%s\n", studentList[i].getStudentID(), studentList[i].getName());
-	// 	}
-	// 	System.out.println("=========================================");
-	// }
 
 }
