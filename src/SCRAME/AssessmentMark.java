@@ -1,44 +1,105 @@
 // package SCRAME;
+
 import java.io.Serializable;
 
-public class AssessmentMark implements Serializable{
-	private Assessment assessment;
-	private AssessmentMark[] subAssessmentMark = new AssessmentMark[Assessment.MAX_SUBASSESSMENT];
-	private int mark = -1;
+/**
+ * Assessment marks of the assessment
+ *
+ * @author MMZ
+ * @version 1.0
+ * @since 2018-11-12
+ */
+public class AssessmentMark implements Serializable {
+    /**
+     * Given assessment
+     */
+    private Assessment assessment;
 
-	public AssessmentMark(Assessment assessment){
-		this.assessment = assessment;
-	}
+    /**
+     * Assesssment marks of any sub components
+     */
+    private AssessmentMark[] subAssessmentMark = new AssessmentMark[Assessment.MAX_SUBASSESSMENT];
 
-	public void setSubAssessmentMark(int index, Assessment assessment){
-		subAssessmentMark[index] = new AssessmentMark(assessment);
-	}
+    /**
+     * The marks of assessment
+     */
+    private int mark = -1;
 
-	public void setMark(int mark){
-		this.mark = mark;
-	}
+    /**
+     * Constructor of assessment mark
+     *
+     * @param assessment given assessment object
+     */
+    public AssessmentMark(Assessment assessment) {
+        this.assessment = assessment;
+    }
 
-	public int getMark(){
-		return mark;
-	}
+    /**
+     * Set the sub assessment
+     *
+     * @param index      index of sub assessment
+     * @param assessment main assessment containing sub assessment
+     */
+    public void setSubAssessmentMark(int index, Assessment assessment) {
+        subAssessmentMark[index] = new AssessmentMark(assessment);
+    }
 
-	public int getNumOfSubAssessmentMarks(){
-		return assessment.getNumOfSubAssessments();
-	}
+    /**
+     * Set marks of the assessment
+     *
+     * @param mark marks of the assessment
+     */
+    public void setMark(int mark) {
+        this.mark = mark;
+    }
 
-	public AssessmentMark getSubAssessmentMark(int index){
-		if(index >= 0 && index < assessment.getNumOfSubAssessments()){
-			return subAssessmentMark[index];
-		}
-		return null;
-	}
+    /**
+     * Get the marks of the assessment
+     *
+     * @return marks of the assessment
+     */
+    public int getMark() {
+        return mark;
+    }
 
-	public Assessment getAssessment(){
-		return assessment;
-	}
+    /**
+     * Get the number of subassessment
+     *
+     * @return number of subassessment
+     */
+    public int getNumOfSubAssessmentMarks() {
+        return assessment.getNumOfSubAssessments();
+    }
 
-	public int getPercentage(){
-		return assessment.getPercentage();
-	}
+    /**
+     * Get the subassessment mark of a certain sub assessment
+     *
+     * @param index index of the sub assessment
+     * @return marks of the sub assessment
+     */
+    public AssessmentMark getSubAssessmentMark(int index) {
+        if (index >= 0 && index < assessment.getNumOfSubAssessments()) {
+            return subAssessmentMark[index];
+        }
+        return null;
+    }
+
+    /**
+     * Get assessment
+     *
+     * @return assessment object
+     */
+    public Assessment getAssessment() {
+        return assessment;
+    }
+
+    /**
+     * Get the weightage of the assessment
+     *
+     * @return weight of assessment
+     */
+    public int getPercentage() {
+        return assessment.getPercentage();
+    }
 
 }

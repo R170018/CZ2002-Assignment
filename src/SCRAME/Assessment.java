@@ -1,7 +1,11 @@
 import java.io.Serializable;
 
 /**
- * This is an entity class for storing assessment information. 
+ * This is an entity class for storing assessment information.
+ *
+ * @author MMZ
+ * @version 1.0
+ * @since 2018-11-12
  */
 public class Assessment implements Serializable{
 	public static final int MAX_SUBASSESSMENT = 4;
