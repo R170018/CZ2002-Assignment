@@ -212,10 +212,10 @@ public class CourseManager implements Serializable
 	public void checkVacancy(String courseID){
 		Course course = getCourse(courseID);
 		if(course == null){return;}
-		System.out.println("Enter class type: LECTURE / TUTORIAL / LAB ");
+		System.out.println("Enter class type: lecture:0 / tutorial:1 / lab:2 ");
 		//enum groupType
 		
-        GroupType groupType = GroupType.valueOf(InputHandler.getLine()); 
+        GroupType groupType = GroupType.values()[InputHandler.getInt()]; 
         // check if the course has the group type
         try{
         	if (!course.haveGroupType(groupType)){

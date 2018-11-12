@@ -133,7 +133,17 @@ public class StudentManager extends PeopleManager
     public static void printStudentInfo(Student student) 
     {   
         if(student == null){return;}
-        System.out.println("StudentID: " +  student.getID() + "   " + "Name: " + student.getName()+" Type of study: "+student.getTypeOfStudy()+ "Type of Student:" +student.getStudentType()+ "Year of Study: "+student.getStudyYear());
+        System.out.printf("StudentID: " +  student.getID() + "   " + "Name: " + student.getName());
+        if(student.getTypeOfStudy() != null){
+            System.out.printf(" Type of study: "+student.getTypeOfStudy());
+        }
+        if(student.getStudentType()){
+            System.out.printf(" Type of Student:" +student.getStudentType());
+        }
+        if(student.get){
+            System.out.printf(" Year of Study: "+student.getStudyYear());
+        }
+        System.out.println("");
     }
 
 }
