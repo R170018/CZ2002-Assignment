@@ -279,6 +279,7 @@ public class CourseManager implements Serializable
 		
 		System.out.println("Statistic of course " + course.getCourseID() + "------------------------------------------");
 		
+		System.out.println("Grade----------------------------------------------- ");
 		//grade percentage
 		for(int i=0; i<course.getGroupNum(type); i++){
 			Group group = course.getGroupByIndex(type, i);
@@ -291,6 +292,7 @@ public class CourseManager implements Serializable
 				}
 				String strGrade = grade.getGrade();
 				//grade
+				System.out.println("Student " + student.getID() + ": " + strGrade);
 				int index;
 				switch(strGrade){
 					case "A+":
@@ -331,43 +333,59 @@ public class CourseManager implements Serializable
 				}
 			}
 		}
-		System.out.println("Grade: ");
 		int sum = 0;
 		for(int i=0; i<10; i++){
 			sum += studentNumber[i];
 		}
 		sum = (sum == 0) ? 1 : sum;
-		System.out.println("	A+: " + 100.0*studentNumber[0]/sum + "%");
-		System.out.println("	A:  " + 100.0*studentNumber[1]/sum + "%");
-		System.out.println("	A-: " + 100.0*studentNumber[2]/sum + "%");
-		System.out.println("	B+: " + 100.0*studentNumber[3]/sum + "%");
-		System.out.println("	B:  " + 100.0*studentNumber[4]/sum + "%");
-		System.out.println("	B-: " + 100.0*studentNumber[5]/sum + "%");
-		System.out.println("	C+: " + 100.0*studentNumber[6]/sum + "%");
-		System.out.println("	C:  " + 100.0*studentNumber[7]/sum + "%");
-		System.out.println("	C-: " + 100.0*studentNumber[8]/sum + "%");
-		System.out.println("	F:  " + 100.0*studentNumber[9]/sum + "%");
-
-		//Second level assessment mark percentage
-		for(int k=0; k<course.getAssessment().getNumOfSubAssessments(); k++){
-			for(int i=0; i<10; i++){
-				studentNumber[i] = 0;
-			}
-			Assessment subAssessment = course.getAssessment().getSubAssessment(k);
+		System.out.println("A+: " + 100.0*studentNumber[0]/sum + "%");
+		System.out.println("A:  " + 100.0*studentNumber[1]/sum + "%");
+		System.out.println("A-: " + 100.0*studentNumber[2]/sum + "%");
+		System.out.println("B+: " + 100.0*studentNumber[3]/sum + "%");
+		System.out.println("B:  " + 100.0*studentNumber[4]/sum + "%");
+		System.out.println("B-: " + 100.0*studentNumber[5]/sum + "%");
+		System.out.println("C+: " + 100.0*studentNumber[6]/sum + "%");
+		System.out.println("C:  " + 100.0*studentNumber[7]/sum + "%");
+		System.out.println("C-: " + 100.0*studentNumber[8]/sum + "%");
+		System.out.println("F:  " + 100.0*studentNumber[9]/sum + "%");
+		System.out.println("------------------------------------------------");
+		
+		//assessment mark percentage
+		Assessment assessment = course.getAssessment();
+		printAssessmentStatistic(course, assessment, type, -1);
+		
+		for(int k=0; k<assessment.getNumOfSubAssessments(); k++){
+			
+			Assessment subAssessment = assessment.getSubAssessment(k);
+			printAssessmentStatistic(course, subAssessment, type, k);
+			
+		}
+	}
+	public void printAssessmentStatistic(Course course, Assessment assessment, GroupType type, int k){
+		int[] studentNumber = new int[10];
+		for(int i=0; i<10; i++){
+			studentNumber[i] = 0;
+		}
+		System.out.println(assessment.getName() + " mark ----------------------------------------------- ");
+			int markSum = 0;
 			for(int i=0; i<course.getGroupNum(type); i++){
 				Group group = course.getGroupByIndex(type, i);
 				for (int j=0; j<(group.getGroupSize() - group.getVacancy()); j++){
 					// get the student name
 					Student student = group.getStudent(j);
-					Grade grade = student.getGradeByCourse(courseID);
+					Grade grade = student.getGradeByCourse(course.getCourseID());
 					if(grade == null){
 						break;
 					}
 					AssessmentMark assessmentMark = grade.getAssessmentMark();
-					AssessmentMark subAssessmentMark = assessmentMark.getSubAssessmentMark(k);
-					int mark = subAssessmentMark.getMark();
+					if(k > -1){
+						assessmentMark = assessmentMark.getSubAssessmentMark(k);
+					}
+					int mark = assessmentMark.getMark();
+					System.out.println("Student " + student.getID() + ": " + mark);
 					//grade
 					int index;
+					markSum += mark;
 					switch(mark/5){
 						case 20:
 						case 19:
@@ -404,22 +422,21 @@ public class CourseManager implements Serializable
 					studentNumber[index]++;
 				}
 			}
-			System.out.println(subAssessment.getName() + ": ");
-			sum = 0;
+			int personSum = 0;
 			for(int i=0; i<10; i++){
-				sum += studentNumber[i];
+				personSum += studentNumber[i];
 			}
-			System.out.println("	95: " + 100.0*studentNumber[0]/sum + "%");
-			System.out.println("	90: " + 100.0*studentNumber[1]/sum + "%");
-			System.out.println("	85: " + 100.0*studentNumber[2]/sum + "%");
-			System.out.println("	80: " + 100.0*studentNumber[3]/sum + "%");
-			System.out.println("	75: " + 100.0*studentNumber[4]/sum + "%");
-			System.out.println("	70: " + 100.0*studentNumber[5]/sum + "%");
-			System.out.println("	65: " + 100.0*studentNumber[6]/sum + "%");
-			System.out.println("	60: " + 100.0*studentNumber[7]/sum + "%");
-			System.out.println("	55: " + 100.0*studentNumber[8]/sum + "%");
-			System.out.println("	 0: " + 100.0*studentNumber[9]/sum + "%");
-		
-		}
+			System.out.println("95: " + 100.0*studentNumber[0]/personSum + "%");
+			System.out.println("90: " + 100.0*studentNumber[1]/personSum + "%");
+			System.out.println("85: " + 100.0*studentNumber[2]/personSum + "%");
+			System.out.println("80: " + 100.0*studentNumber[3]/personSum + "%");
+			System.out.println("75: " + 100.0*studentNumber[4]/personSum + "%");
+			System.out.println("70: " + 100.0*studentNumber[5]/personSum + "%");
+			System.out.println("65: " + 100.0*studentNumber[6]/personSum + "%");
+			System.out.println("60: " + 100.0*studentNumber[7]/personSum + "%");
+			System.out.println("55: " + 100.0*studentNumber[8]/personSum + "%");
+			System.out.println(" 0: " + 100.0*studentNumber[9]/personSum + "%");
+			System.out.println("Averager: " + 1.0*markSum/personSum);
+			System.out.println("----------------------------------------------------");
 	}
 }
