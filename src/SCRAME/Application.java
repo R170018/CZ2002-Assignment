@@ -12,7 +12,7 @@ public class Application {
      * @param args any arguements to be added
      */
     public static void main(String args[]) {
-        String dataFile = "data.txt";
+        String dataFile = "data/data.txt";
         SchoolManager schoolManager = null;
         Object tempObject = FileIOManager.readObjectFromFile(dataFile);
         if (tempObject instanceof SchoolManager) {

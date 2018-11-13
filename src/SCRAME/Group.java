@@ -62,7 +62,7 @@ public class Group implements Serializable {
      */
     public boolean haveStudent(Student student) {
         for (int i = 0; i < (size - vacancy); i++) {
-            System.out.println(size - vacancy);
+            //System.out.println(size - vacancy);
             if (studentList[i].getID().equals(student.getID()))
                 return true;
         }

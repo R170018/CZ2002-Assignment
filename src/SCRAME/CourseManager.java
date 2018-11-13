@@ -167,7 +167,7 @@ public class CourseManager implements Serializable {
                     tempGroup = course.getGroupByIndex(type, j);
                     if (tempGroup.getVacancy() != 0) {
                         tempGroup.addStudent(student);
-                        System.out.println("Student " + student.getID() + " is assigned to lab group " + tempGroup.getGroupID() + ".");
+                        System.out.println("Student " + student.getID() + " is assigned to " + type.toString() + " group " + tempGroup.getGroupID() + ".");
                         break;
                     }
                 }
@@ -267,7 +267,7 @@ public class CourseManager implements Serializable {
         if (course == null) {
             return;
         }
-        System.out.println("Enter class type: lecture:0 / tutorial:1 / lab:2 ");
+        System.out.println("Enter class type: lecture:0 / lab:1 / tutorial:2 ");
         //enum groupType
 
         GroupType groupType = GroupType.values()[InputHandler.getInt()];
@@ -362,6 +362,9 @@ public class CourseManager implements Serializable {
                 }
                 String strGrade = grade.getGrade();
                 //grade
+                if(strGrade == null){
+                    break;
+                }
                 System.out.println("Student " + student.getID() + ": " + strGrade);
                 int index;
                 switch (strGrade) {
@@ -408,17 +411,17 @@ public class CourseManager implements Serializable {
             sum += studentNumber[i];
         }
         sum = (sum == 0) ? 1 : sum;
-        System.out.println("A+: " + 100.0 * studentNumber[0] / sum + "%");
-        System.out.println("A:  " + 100.0 * studentNumber[1] / sum + "%");
-        System.out.println("A-: " + 100.0 * studentNumber[2] / sum + "%");
-        System.out.println("B+: " + 100.0 * studentNumber[3] / sum + "%");
-        System.out.println("B:  " + 100.0 * studentNumber[4] / sum + "%");
-        System.out.println("B-: " + 100.0 * studentNumber[5] / sum + "%");
-        System.out.println("C+: " + 100.0 * studentNumber[6] / sum + "%");
-        System.out.println("C:  " + 100.0 * studentNumber[7] / sum + "%");
-        System.out.println("C-: " + 100.0 * studentNumber[8] / sum + "%");
-        System.out.println("F:  " + 100.0 * studentNumber[9] / sum + "%");
-        System.out.println("------------------------------------------------");
+        System.out.println("A+: " + Math.round(100.0 * studentNumber[0] / sum) + "%");
+        System.out.println("A : " + Math.round(100.0 * studentNumber[1] / sum) + "%");
+        System.out.println("A-: " + Math.round(100.0 * studentNumber[2] / sum) + "%");
+        System.out.println("B+: " + Math.round(100.0 * studentNumber[3] / sum) + "%");
+        System.out.println("B : " + Math.round(100.0 * studentNumber[4] / sum) + "%");
+        System.out.println("B-: " + Math.round(100.0 * studentNumber[5] / sum) + "%");
+        System.out.println("C+: " + Math.round(100.0 * studentNumber[6] / sum) + "%");
+        System.out.println("C : " + Math.round(100.0 * studentNumber[7] / sum) + "%");
+        System.out.println("C-: " + Math.round(100.0 * studentNumber[8] / sum) + "%");
+        System.out.println("F : " + Math.round(100.0 * studentNumber[9] / sum) + "%");
+        //System.out.println("------------------------------------------------");
 
         //assessment mark percentage
         Assessment assessment = course.getAssessment();
@@ -457,10 +460,16 @@ public class CourseManager implements Serializable {
                     break;
                 }
                 AssessmentMark assessmentMark = grade.getAssessmentMark();
+                if(assessmentMark == null){
+                    break;
+                }
                 if (k > -1) {
                     assessmentMark = assessmentMark.getSubAssessmentMark(k);
                 }
                 int mark = assessmentMark.getMark();
+                if(mark == -1){
+                    break;
+                }
                 System.out.println("Student " + student.getID() + ": " + mark);
                 //grade
                 int index;
@@ -505,17 +514,18 @@ public class CourseManager implements Serializable {
         for (int i = 0; i < 10; i++) {
             personSum += studentNumber[i];
         }
-        System.out.println("95: " + 100.0 * studentNumber[0] / personSum + "%");
-        System.out.println("90: " + 100.0 * studentNumber[1] / personSum + "%");
-        System.out.println("85: " + 100.0 * studentNumber[2] / personSum + "%");
-        System.out.println("80: " + 100.0 * studentNumber[3] / personSum + "%");
-        System.out.println("75: " + 100.0 * studentNumber[4] / personSum + "%");
-        System.out.println("70: " + 100.0 * studentNumber[5] / personSum + "%");
-        System.out.println("65: " + 100.0 * studentNumber[6] / personSum + "%");
-        System.out.println("60: " + 100.0 * studentNumber[7] / personSum + "%");
-        System.out.println("55: " + 100.0 * studentNumber[8] / personSum + "%");
-        System.out.println(" 0: " + 100.0 * studentNumber[9] / personSum + "%");
-        System.out.println("Averager: " + 1.0 * markSum / personSum);
-        System.out.println("----------------------------------------------------");
+        personSum = (personSum == 0) ? 1 : personSum;
+        System.out.println("95: " + Math.round(100.0 * studentNumber[0] / personSum) + "%");
+        System.out.println("90: " + Math.round(100.0 * studentNumber[1] / personSum) + "%");
+        System.out.println("85: " + Math.round(100.0 * studentNumber[2] / personSum) + "%");
+        System.out.println("80: " + Math.round(100.0 * studentNumber[3] / personSum) + "%");
+        System.out.println("75: " + Math.round(100.0 * studentNumber[4] / personSum) + "%");
+        System.out.println("70: " + Math.round(100.0 * studentNumber[5] / personSum) + "%");
+        System.out.println("65: " + Math.round(100.0 * studentNumber[6] / personSum) + "%");
+        System.out.println("60: " + Math.round(100.0 * studentNumber[7] / personSum) + "%");
+        System.out.println("55: " + Math.round(100.0 * studentNumber[8] / personSum) + "%");
+        System.out.println(" 0: " + Math.round(100.0 * studentNumber[9] / personSum) + "%");
+        System.out.println("Averager: " + Math.round(1.0 * markSum / personSum));
+        //System.out.println("----------------------------------------------------");
     }
 }

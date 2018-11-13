@@ -273,8 +273,8 @@ public class SchoolManager implements Serializable {
                 throw new Exception("Error: Course does not exist!");
             }
 
-            System.out.println("Print student list according to a group type: Lecture / Tutorial / Lab : ");
-            GroupType groupType = GroupType.valueOf(InputHandler.getLine());
+            System.out.println("Print student list according to a group type: Lecture(0) / Lab(1) / Tutorial(2) : ");
+            GroupType groupType = GroupType.values()[InputHandler.getInt()];
             courseManager.printStudentList(courseID, groupType);
         } catch (Exception e) {
             System.out.println(e.getMessage());
